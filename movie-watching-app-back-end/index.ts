@@ -1,1 +1,2 @@
-const khoa = 'ss'
+const khoa = 'sssssssasas'
+const ngoc = 'sas'

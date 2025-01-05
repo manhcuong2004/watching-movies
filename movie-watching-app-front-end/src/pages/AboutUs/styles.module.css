@@ -1,0 +1,183 @@
+.container > div{
+    padding: 150px 15px;
+    margin: 0 auto;
+    width: 1200px;
+}
+.first{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 100px
+}
+.first .box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+.first .box .content{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 30px
+}
+.first .box .content h2{
+    margin-bottom: 12px;
+    font-size: 38px;
+    font-weight: 400;
+}
+.first .box .content p:last-child{
+    margin-top: 32px;
+}
+.first .box.about{
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    line-height: 2;
+}
+
+.first .box.about h3{
+    margin-bottom: 30px;
+}
+.first .box.about p{
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+.first .box.about ul{
+    list-style-type: none ;
+}
+.first .box.about ul li{
+    margin-bottom: 15px;
+}
+.first .box.about ul i{
+    margin-right: 20px;
+}
+/* end first */
+.same{
+    background-color: rgb(18, 34, 45);
+}
+
+.same .content{
+    text-align: center;
+    color: white;
+    margin-bottom: 80px;
+}
+.same .content h2{
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    font-size: 36px;
+    position: relative
+}
+.same .content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 210px; 
+    height: 10px;
+    background-image: url(https://streamo.vuejstemplate.com/images/icon/title-bg.png);
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+
+.same .content p{
+    width: 585px;
+    margin: 0 auto;
+    line-height: 2;
+    font-size: 18px;
+}
+
+.second .imgBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.second .imgBox span{
+    position: absolute;
+    top:40%;
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-image: linear-gradient(to top, rgb(2, 89, 174), rgb(18, 180, 242));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.second .imgBox i{
+    font-size: 40px;
+    color: white;
+}
+/* end second */
+.third{
+    color: white;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.third h3{
+    font-size: 48px;
+}
+.third p{
+    font-size: 22px;
+}
+.third img{
+    width: 64px;
+    height: 66px;
+    margin-bottom: 20px;
+}
+/* end third */
+.four .box{
+    text-align: center;
+}
+.four .content{
+    margin-top: 24px;
+}
+.four .content h4{
+    font-size: 22px;
+}
+.four .content p{
+    font-size: 20px;
+}
+/* .four .person{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+} */
+.four .person{
+
+}
+.four .person .box{
+    display: inline-block;
+}
+.four .person .box .imgBox{
+    padding-top: 10px;
+}
+.four .person .box:hover .imgBox{
+    background-color: rgb(255, 218, 132);
+}
+.four .person .box .imgBox img{
+    display: inline-block;
+}
+
+
+
+
+
+
+/* .four ul{
+    position: absolute;
+    left: 10px;
+}
+.four ul li{
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: rgb(255, 198, 27);
+    border-radius: 50%;
+    font-size: 25px;
+    color: white;
+    margin-left: 10px;
+    transform: rotate(270deg);
+} */

@@ -66,11 +66,30 @@
     font-size: 14px ;
 
 }
-.form_box .form .form_group:nth-child(3){
+.form_box .form .form_group:nth-child(4){
     text-align: left;
     display: flex;
     gap: 10px
 }
-.form_box .form .form_group:nth-child(4){
+.form_box .form .form_group:nth-child(5){
     text-align: right;
+}
+.form_box .form .form_group:last-child{
+    margin-top: 20px;
+}
+.form_box .form .form_group:last-child input{
+    padding: 8px 30px;
+    background-color: rgb(244, 24, 28);
+    color: white;
+    border: none;
+    display: none;
+}
+.form_box .form .form_group:last-child input.active{
+    display: block;
+}
+.form_box .form .form_group:nth-child(3){
+    display: none;
+}
+.form_box .form .form_group:nth-child(3).active{
+    display: block;
 }

@@ -1,0 +1,86 @@
+.myprofile_container{
+    /* width: 1200px;
+    margin: 0 auto; */
+}
+
+.main{
+    width: 1200px;
+    margin: 0 auto;
+    padding: 80px 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.aside {
+    grid-column: 1/2; 
+    color: white;
+    text-align: center;
+}
+.aside .info,
+.aside .icon{
+    margin-top: 20px;
+}
+.aside .info h5{
+    font-size: 18px;
+}
+.aside .info p{
+    font-size: 16px;
+}
+.aside .icon{
+}
+.aside .icon ol{
+    list-style-type: none;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+.aside .icon ol li{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 100%;
+}
+.aside .icon ol li:nth-child(1){
+    background-color: rgb(59, 89, 152);
+}
+.aside .icon ol li:nth-child(1):hover{
+    background-color: black;
+    border: rgb(59, 89, 152) solid 0.5px;
+}
+.aside .icon ol li:nth-child(2){
+    background-color: rgb(0, 179, 236);
+}
+.aside .icon ol li:nth-child(2):hover{
+    background-color: black;
+    border: rgb(0, 179, 236) solid 0.5px;
+}
+.aside .icon ol li:nth-child(3){
+    background-color: rgb(10, 102, 194);
+}
+.aside .icon ol li:nth-child(3):hover{
+    background-color: black;
+    border: rgb(10, 102, 194) solid 0.5px;
+}
+.aside .icon ol li:nth-child(4){
+    background-color: rgb(228, 64, 95)
+;
+}
+.aside .icon ol li:nth-child(4):hover{
+    background-color: black;
+    border: rgb(228, 64, 95)
+ solid 0.5px;
+}
+
+.aside .content{
+    margin-top: 32px;
+    font-size: 16px;
+    line-height: 2;
+    color: rgb(204, 204, 204);
+}
+.article {
+    grid-column: 2/5;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px 25px;
+    margin-left: 40px;
+} 

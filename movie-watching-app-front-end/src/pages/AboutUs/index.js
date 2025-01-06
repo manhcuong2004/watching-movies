@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 import Nav from '../../components/components/Nav';
+import Person from '../../components/components/Person';
 import clsx from 'clsx'
 
 function AboutUs(){
@@ -89,67 +90,11 @@ function AboutUs(){
                         <h2>Best Team</h2>
                         <p>Adminim veniam, quis nostrud exercitation ullamco laboris nisi ut pariatur. Excepteur t labore et dolore magnam aliquam quaerat</p>
                     </div>
-                    <div className={styles.person}>
-                        <div className ={styles.box}>
-                            <div className={styles.imgBox}>
-                                <img src ='https://streamo.vuejstemplate.com/images/team/team-01.png'/>
-                                {/* <ul>
-                                    <li><i class="zmdi zmdi-facebook"></i></li>
-                                    <li><i class="zmdi zmdi-twitter"></i></li>
-                                    <li><i class="zmdi zmdi-linkedin"></i></li>
-                                    <li><i class="zmdi zmdi-instagram"></i></li>
-                                </ul> */}
-                            </div>
-                            <div className={styles.content}>
-                                <h4>Reza Karim</h4>
-                                <p>Programer</p>
-                            </div>
-                        </div>
-                        {/* <div className ={styles.box}>
-                            <div className={styles.imgBox}>
-                                <img src ='https://streamo.vuejstemplate.com/images/team/team-01.png'/>
-                                <ul>
-                                    <li><i class="zmdi zmdi-facebook"></i></li>
-                                    <li><i class="zmdi zmdi-twitter"></i></li>
-                                    <li><i class="zmdi zmdi-linkedin"></i></li>
-                                    <li><i class="zmdi zmdi-instagram"></i></li>
-                                </ul>
-                            </div>
-                            <div className={styles.content}>
-                                <h4>Reza Karim</h4>
-                                <p>Programer</p>
-                            </div>
-                        </div>
-                        <div className ={styles.box}>
-                            <div className={styles.imgBox}>
-                                <img src ='https://streamo.vuejstemplate.com/images/team/team-01.png'/>
-                                <ul>
-                                    <li><i class="zmdi zmdi-facebook"></i></li>
-                                    <li><i class="zmdi zmdi-twitter"></i></li>
-                                    <li><i class="zmdi zmdi-linkedin"></i></li>
-                                    <li><i class="zmdi zmdi-instagram"></i></li>
-                                </ul>
-                            </div>
-                            <div className={styles.content}>
-                                <h4>Reza Karim</h4>
-                                <p>Programer</p>
-                            </div>
-                        </div>
-                        <div className ={styles.box}>
-                            <div className={styles.imgBox}>
-                                <img src ='https://streamo.vuejstemplate.com/images/team/team-01.png'/>
-                                <ul>
-                                    <li><i class="zmdi zmdi-facebook"></i></li>
-                                    <li><i class="zmdi zmdi-twitter"></i></li>
-                                    <li><i class="zmdi zmdi-linkedin"></i></li>
-                                    <li><i class="zmdi zmdi-instagram"></i></li>
-                                </ul>
-                            </div>
-                            <div className={styles.content}>
-                                <h4>Reza Karim</h4>
-                                <p>Programer</p>
-                            </div>
-                        </div> */}
+                    <div className ={styles.person}>
+                        <Person />
+                        <Person />
+                        <Person />
+                        <Person />
                     </div>
                 </div>
             </div>
@@ -159,18 +104,3 @@ function AboutUs(){
 
 export default AboutUs
 
-// {/* <div class="text-center">
-//     <div class="text-center group">
-//         <div class="relative group-hover:bg-[#ffda84] transition-all pt-[10px]">
-//             <img src="/images/team/team-01.png" alt="Team"> 
-//             <ul class="absolute -bottom-5 left-1/2 transition-all duration-500 transform -translate-x-1/2 flex opacity-0 invisible group-hover:opacity-100 group-hover:visible">
-//                 <li class="mx-[4px]"><a href="https://www.facebook.com/" class="block bg-[#ffc61b] text-white h-[40px] w-[40px] leading-[40px] text-center rounded-full group-hover:animate-roll"><i class="zmdi zmdi-facebook"></i></a></li>
-//                 <li class="mx-[4px]"><a href="https://twitter.com/" class="block bg-[#ffc61b] text-white h-[40px] w-[40px] leading-[40px] text-center rounded-full group-hover:animate-roll"><i class="zmdi zmdi-twitter"></i></a></li><li class="mx-[4px]"><a href="https://www.linkedin.com/" class="block bg-[#ffc61b] text-white h-[40px] w-[40px] leading-[40px] text-center rounded-full group-hover:animate-roll"><i class="zmdi zmdi-linkedin"></i></a></li>
-//                 <li class="mx-[4px]"><a href="https://www.instagram.com/" class="block bg-[#ffc61b] text-white h-[40px] w-[40px] leading-[40px] text-center rounded-full group-hover:animate-roll"><i class="zmdi zmdi-instagram"></i></a></li>
-//             </ul>
-//         </div>
-    //      <div class="mt-6">
-    //         <h4 class="text-[18px] font-semibold text-white">Reza Karim</h4> 
-    //         <span class="text-[16px] font-normal block mt-1 text-white">Programer</span>
-    //     </div>
-//      </div> */}

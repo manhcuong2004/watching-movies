@@ -10,7 +10,7 @@ import LoginRegister from './pages/LoginRegister';
 function App() {
   return (
     <div className = 'App'>
-        {/* <Home /> */}
+        <Home />
         {/* <Series /> */}
         {/* <Movies/> */}
         {/* <AboutUs /> */}
@@ -18,7 +18,7 @@ function App() {
         {/* <FAQ/> */}
         {/* <MyProfile/> */}
         {/* <Contact/> */}
-        <LoginRegister/>
+        {/* <LoginRegister/> */}
     </div>
   );
 }

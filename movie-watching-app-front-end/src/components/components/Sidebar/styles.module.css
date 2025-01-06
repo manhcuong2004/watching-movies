@@ -63,3 +63,19 @@
 .sidebar_arrow i:active{
     color:white
 }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.sidebar_content h1,
+.sidebar_content .box > *, 
+.sidebar_content button{
+    animation: fadeIn 1s ease-in-out;
+}

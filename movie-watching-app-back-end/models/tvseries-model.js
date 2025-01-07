@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-const MovieSchema = mongoose.Schema({
-    movie_id: Number,
+const TVseriesSchema = mongoose.Schema({
+
+    tvseries_id: Number,
     name: {
         type: String,
         required: true
@@ -30,6 +31,6 @@ const MovieSchema = mongoose.Schema({
     },
 });
 
-const Movie = mongoose.model('Movie', MovieSchema, 'movies');
+const TVseries = mongoose.model('TVseries', TVseriesSchema, 'tvSeries');
 
-module.exports = Movie;
+module.exports = TVseries;

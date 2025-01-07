@@ -1,0 +1,21 @@
+.title_box{
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 28px 12px; 
+    background-color: rgb(30, 39, 45);
+}
+.title_box h2{
+    margin-right: 12px;
+}
+.title_box .content{
+    display: flex;
+    align-items: center;
+    color: rgb(221, 221, 221);
+    font-size: 14px;
+}
+.title_box .content p:not(:last-child){
+    padding-right: 8px;
+    margin-right: 8px;
+    border-right: 1px solid rgb(229, 231, 235);
+}

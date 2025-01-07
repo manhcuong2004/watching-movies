@@ -7,10 +7,11 @@ import FAQ from './pages/FAQ';
 import MyProfile from './pages/MyProfile';
 import Contact from './pages/Contact';
 import LoginRegister from './pages/LoginRegister';
+import MoviePage from './pages/MoviePage';
 function App() {
   return (
     <div className = 'App'>
-        <Home />
+        {/* <Home /> */}
         {/* <Series /> */}
         {/* <Movies/> */}
         {/* <AboutUs /> */}
@@ -19,6 +20,7 @@ function App() {
         {/* <MyProfile/> */}
         {/* <Contact/> */}
         {/* <LoginRegister/> */}
+        <MoviePage/>
     </div>
   );
 }

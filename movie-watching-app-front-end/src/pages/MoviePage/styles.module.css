@@ -3,7 +3,7 @@
 }
 .main > * {
   width: 1200px;
-  padding: 50px 15px;
+  padding: 50px 15px 0;
   margin: 0 auto;
   position: relative;
 }
@@ -11,7 +11,6 @@
   padding: 0;
 }
 .main .videoWrapper video {
-  height: 100%;
   width: 100%;
   opacity: 0;
 }
@@ -20,7 +19,7 @@
   background-repeat: no-repeat;
   background-position: 50%;
   width: calc(100% - 30px);
-  height: calc(100% - 100px);
+  height: calc(100% - 50px);
   position: absolute;
   top: 50px;
 }
@@ -63,16 +62,16 @@
 }
 .main .play_control {
   position: absolute;
-  bottom: 7%;
+  bottom: 0;
   left: 16px;
   right: 15px;
   z-index: 3;
   opacity: 1;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .main .play_control.isPlaying {
   position: absolute;
-  bottom: 3%;
+  bottom: -5%;
   opacity: 0;
 }
 .main .play_control {
@@ -109,11 +108,11 @@
   top: -10px;
   left: 0;
 }
-input[type ='range'] {
+input[type="range"] {
   width: 100%;
   position: relative;
 }
-input[type ='range']::before {
+input[type="range"]::before {
   content: "";
   position: absolute;
   height: 8px;
@@ -123,13 +122,13 @@ input[type ='range']::before {
   border-bottom-left-radius: 10px;
   z-index: -1;
 }
-.progress input[type ='range']::before{
+.progress input[type="range"]::before {
   width: var(--value, 0%);
 }
-.volume_box input[type ='range']::before{
+.volume_box input[type="range"]::before {
   width: var(--value_volume, 50%);
 }
-input[type ='range']::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 6px;
@@ -138,7 +137,7 @@ input[type ='range']::-webkit-slider-thumb {
   z-index: 1;
 }
 
-input[type ='range']{
+input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   height: 8px;
@@ -160,7 +159,6 @@ input[type ='range']{
   align-items: center;
   justify-content: center;
 }
-
 
 .main .play_control .time > * {
   margin: 0 2.5px;
@@ -270,4 +268,109 @@ input[type ='range']{
 
 video::-webkit-media-controls-panel {
   display: none;
+}
+.content_box {
+  color: white;
+  padding-top: 0;
+}
+.content_box .highlight {
+  color: rgb(244, 24, 28);
+  flex-basis: 7%;
+  font-size: 18px;
+  font-weight: bold;
+}
+.content_box .direc p {
+  display: flex;
+  font-size: 16px;
+  align-items: center;
+}
+.content_box .direc {
+  margin: 20px 0;
+}
+.content_box > * {
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 2;
+}
+.content_box .nav {
+  margin: 36px 0 0;
+  padding: 12px 0;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  border-top: 1px solid rgb(221, 221, 221);
+  display: flex;
+}
+.content_box .nav > div {
+  display: flex;
+  align-items: center;
+}
+.content_box .nav > div .iconBox {
+  display: flex;
+  gap: 10px;
+}
+.content_box .nav > div button {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+}
+.content_box .nav > div button i {
+  font-size: 20px;
+  color: white;
+}
+.content_box .nav > div:first-child button:first-child {
+  background-color: rgb(59, 89, 152);
+}
+.content_box .nav > div:first-child button:first-child:hover {
+  border: 1px solid rgb(59, 89, 152);
+}
+.content_box .nav > div:first-child button:nth-child(2) {
+  background-color: rgb(228, 64, 95);
+}
+.content_box .nav > div:first-child button:nth-child(2):hover {
+  border: 1px solid rgb(228, 64, 95);
+}
+.content_box .nav > div:first-child button:nth-child(3) {
+  background-color: rgb(10, 102, 194);
+}
+.content_box .nav > div:first-child button:nth-child(3):hover {
+  border: 1px solid rgb(10, 102, 194);
+}
+.content_box .nav > div:first-child button:hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+.content_box .nav > div:first-child {
+  flex-basis: 50%;
+}
+.content_box .nav > div:first-child .highlight{
+  flex-basis: 15%;
+}
+.content_box .nav > div:last-child {
+  flex-basis: 50%;
+  justify-content: flex-end;
+  gap: 10px
+}
+.content_box .nav > div:last-child button{
+  background-color: rgba(0, 0, 0, 0);
+}
+.content_box .nav > div:last-child button i{
+  font-size: 35px;
+}
+.content_box .nav > div:last-child button:hover i{
+  color: rgb(244, 24, 28);
+}
+.content_box .nav > div:last-child button.active i{
+  color: rgb(244, 24, 28);
+}
+.movie_box{
+  padding-bottom: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 25px
+}
+.movie_box >*{
+  display: flex;
+  justify-content: center;
 }

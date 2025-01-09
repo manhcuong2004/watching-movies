@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import Title_v2 from "../../components/components/Title_v2";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import Movie from '../../components/components/Movie'
 function MoviePage() {
   const videoRef = useRef();
   const rangeInputRef = useRef();
@@ -11,6 +12,7 @@ function MoviePage() {
   const background_imgRef = useRef();
   const menuContainerRef = useRef();
   const plr_control_ref = useRef();
+  const favourite_box_ref = useRef();
   const [isSpeedRate, setIsSpeedRate] = useState("Normal");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -334,6 +336,28 @@ function MoviePage() {
       }
     }
   };
+  const handleLike = (e) => {
+    let eventTarget = e.nativeEvent.target;
+
+    if (eventTarget.tagName !== "BUTTON") {
+      eventTarget = eventTarget.closest("button");
+    }
+
+    if (!eventTarget) return;
+
+    const favourite_box = favourite_box_ref.current;
+    const like_button = favourite_box.querySelectorAll("button");
+
+    like_button.forEach((button) => {
+      console.log(button)
+      if (button === eventTarget) {
+        button.classList.toggle(styles.active);
+      } else {
+        button.classList.remove(styles.active);
+      }
+    });
+  };
+
   return (
     <div className={styles.moviePage_container}>
       <div className={styles.title_box}>
@@ -462,10 +486,16 @@ function MoviePage() {
               <span className={styles.pip}></span>
             </div>
             <div className={styles.fullScreen_box}>
-              <button onClick={toggleFullScreen}>
+              <button
+                onClick={toggleFullScreen}
+                className={isFullscreen ? styles.hidden : ""}
+              >
                 <i class="zmdi zmdi-fullscreen"></i>
               </button>
-              <button className={styles.hidden}>
+              <button
+                className={isFullscreen ? "" : styles.hidden}
+                onClick={toggleFullScreen}
+              >
                 <i class="zmdi zmdi-fullscreen-exit"></i>
               </button>
             </div>
@@ -486,6 +516,7 @@ function MoviePage() {
               onPause={() => {
                 setIsPlaying(false);
               }}
+              loop
             ></video>
             <div
               className={styles.background_img}
@@ -505,6 +536,69 @@ function MoviePage() {
               <i class="zmdi zmdi-play"></i>
             </button>
           </div>
+        </div>
+        <div className={styles.content_box}>
+          <div className={styles.direc}>
+            <p>
+              <span className={styles.highlight}>Director : </span> Brent
+              Robinson
+            </p>
+            <p>
+              <span className={styles.highlight}>Starring : </span> Sangel
+              Juergens, Joel McGill, Sandra Keller, Roy Johnson, Jerry Matherne,
+              Cheryl Pope, Edward D. Kivi
+            </p>
+          </div>
+          <p>
+            Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Ut
+            enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
+            enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
+            enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
+            enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+          </p>
+          <p>
+            Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Ut
+            enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
+            enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
+          </p>
+          <div className={styles.nav}>
+            <div>
+              <span className={styles.highlight}>Share : </span>
+              <div className={styles.iconBox}>
+                <button>
+                  <i class="zmdi zmdi-facebook"></i>
+                </button>
+                <button>
+                  <i class="zmdi zmdi-instagram"></i>
+                </button>
+                <button>
+                  <i class="zmdi zmdi-linkedin-box"></i>
+                </button>
+              </div>
+            </div>
+            <div ref={favourite_box_ref}>
+              <button onClick={handleLike}>
+                <i class="zmdi zmdi-thumb-up"></i>
+              </button>
+              <button onClick={handleLike}>
+                <i class="zmdi zmdi-thumb-down"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className ={styles.movie_box}>
+              <Movie/>
+              <Movie/>
+              <Movie/>
+              <Movie/>
         </div>
       </div>
     </div>

@@ -1,15 +1,15 @@
-const Movie = require('../../models/movie-model');
+const TVseries = require('../../models/tvseries-model');
 const Category = require('../../models/category-model');
 
-module.exports.movie = async (req, res) => {
+module.exports.tvseries = async (req, res) => {
     try {
-        const movies = await Movie.find({
+        const tvseries = await TVseries.find({
             deleted: false
         });
         const categories = await Category.find({
             deleted: false
         });
-        res.json(movies, categories);
+        res.json(tvseries, categories);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

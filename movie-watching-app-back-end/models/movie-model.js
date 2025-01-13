@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 
 const MovieSchema = mongoose.Schema({
-    movie_id: Number,
-    thumbnail: String,
+    banner: String,
     name: {
         type: String,
         required: true
     },
-    releaseDate: Number,
+    releaseDate: String,
     duration: String,
     ageRating: String,
     category: {
@@ -16,7 +15,7 @@ const MovieSchema = mongoose.Schema({
     },
     rating: Number,
     totalRating: Number,
-    desc: String,
+    description: String,
     director: {
         type: Array,
         default: []
@@ -26,17 +25,8 @@ const MovieSchema = mongoose.Schema({
         default: []
     },
     video: String,
-    deleted: {
-        type: Boolean,
-        default: false
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    deletedAt: {
-        type: Date,
-    },
+    movie_id: Number,
+    deleted: Boolean,
 });
 
 const Movie = mongoose.model('Movie', MovieSchema, 'movies');

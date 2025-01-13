@@ -6,17 +6,10 @@ const CategorySchema = mongoose.Schema({
         type: String,
         required: true
     },
-    thumbnail: String,
+    banner: String,
     deleted: {
         type: Boolean,
         default: false
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    deletedAt: {
-        type: Date,
     },
 });
 

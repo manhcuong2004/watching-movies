@@ -14,7 +14,6 @@ module.exports.home = async (req, res) => {
         const category = await Category.find({
             deleted: false
         });
-
         res.json({ movies, tvseries, category });
     } catch (err) {
         res.status(500).json({ message: err.message });

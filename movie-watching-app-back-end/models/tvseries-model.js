@@ -1,34 +1,32 @@
 const mongoose = require("mongoose");
 
 const TVseriesSchema = mongoose.Schema({
-
-    tvseries_id: Number,
+    banner: String,
     name: {
         type: String,
         required: true
     },
-    description: String,
-    director: String,
-    starring: {
+    releaseDate: String,
+    duration: String,
+    ageRating: String,
+    category: {
         type: Array,
         default: []
     },
-    duration: Number,
-    releaseDate: Date,
-    ageRating: String,
-    thumbnail: String,
-    category_id: Number,
-    deleted: {
-        type: Boolean,
-        default: false
+    rating: Number,
+    totalRating: Number,
+    description: String,
+    director: {
+        type: Array,
+        default: []
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    stars: {
+        type: Array,
+        default: []
     },
-    deletedAt: {
-        type: Date,
-    },
+    video: String,
+    tvseries_id: Number,
+    deleted: Boolean,
 });
 
 const TVseries = mongoose.model('TVseries', TVseriesSchema, 'tvSeries');

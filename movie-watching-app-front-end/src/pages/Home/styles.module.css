@@ -1,15 +1,76 @@
-.container{
-    padding: 50px 100px 0;
+.slider_container {
+  position: relative;
+  overflow-x: hidden;
 }
-.box{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 40px;
-    justify-content: space-between;
+.slider_container .slides {
+  display: flex;
+  transition: transform ease 0.5s;
 }
-.box > *{
-    width: 230px;
+.slider_container .slides > * {
+  min-width: 100%;
 }
-.container.sidebar{
-    padding: 50px 0 0;
+.slider_container .sidebar_arrow {
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  right: -40px;
+  display: flex;
+  justify-content: space-between;
+  transition: left 0.5s ease, right 0.5s ease;
+}
+.slider_container .sidebar_arrow button {
+  background: none;
+  border: none;
+  padding: 16px 24px;
+}
+.slider_container:hover .sidebar_arrow {
+  left: 5px;
+  right: 5px;
+  transition: left 0.5s ease, right 0.5s ease;
+}
+.slider_container .sidebar_arrow i {
+  font-size: 50px;
+  color: rgb(244, 24, 28);
+}
+.slider_container .sidebar_arrow button:active i {
+  color: white;
+}
+.container {
+  padding: 50px 100px 0;
+}
+.box {
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+.box > * {
+  display: inline-block;
+  margin-right: 40px;
+  width: calc(20% - 32px);
+}
+.container {
+  position: relative;
+}
+.container .title_arrow_box {
+  position: absolute;
+  right: 100px;
+  top: 40px;
+  color: white;
+  display: flex;
+  gap: 8px;
+}
+.container .title_arrow_box button {
+  border: none;
+  background: none;
+}
+.container .title_arrow_box button {
+  font-size: 20px;
+  padding: 4px 12px;
+  color: white;
+  background-color: rgb(51, 51, 51);
+  border-radius: 5px;
+  transition: background-color 0.5s ease;
+}
+.container .title_arrow_box button:hover {
+  background-color: rgb(244, 24, 28);
+  transition: background-color 0.5s ease;
 }

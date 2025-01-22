@@ -93,11 +93,29 @@ function Home() {
   }, [data]);
 
   const handleNextButtonMovie = (index) => {
-    
+    const box = boxRefs.current[index];
+    if (box.children.length - currentMovies[index] <= 5) return;
+    box.style.transform = `translateX(calc(${
+      currentMovies[index] + 1
+    } * (-20% - 8px)))`;
+    setCurrentMovies((prev) => {
+      const updatedMovies = [...prev];
+      updatedMovies[index] = updatedMovies[index] + 1;
+      return updatedMovies;
+    });
   };
 
   const handlePrevButtonMovie = (index) => {
-    return;
+    if (currentMovies[index] === 0) return;
+    const box = boxRefs.current[index];
+    box.style.transform = `translateX(calc(${
+      currentMovies[index] - 1
+    } * (-20% - 8px)))`;
+    setCurrentMovies((prev) => {
+      const updatedMovies = [...prev];
+      updatedMovies[index] = updatedMovies[index] - 1;
+      return updatedMovies;
+    });
   };
 
   return (
@@ -160,20 +178,23 @@ function Home() {
                   ></i>
                 </button>
               </div>
-              <div
-                className={styles.box}
-                ref={(el) => (boxRefs.current[index] = el)}
-              >
-                {data.movies.map(
-                  (movie, idx) =>
-                    movie.category.includes(category.name) && (
-                      <Movie
-                        key={idx}
-                        name={movie.name}
-                        img_src={movie.banner}
-                      />
-                    )
-                )}
+              <div className={styles.swiper_container}>
+                <div
+                  className={styles.box}
+                  ref={(el) => (boxRefs.current[index] = el)}
+                >
+                  {data.movies.map(
+                    (movie, idx) =>
+                      movie.category.includes(category.name) && (
+                        <Movie
+                          id={movie._id}
+                          key={idx}
+                          name={movie.name}
+                          img_src={movie.banner}
+                        />
+                      )
+                  )}
+                </div>
               </div>
             </div>
           ))}

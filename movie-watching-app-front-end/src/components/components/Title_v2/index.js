@@ -1,18 +1,18 @@
-import styles from  './styles.module.css'
-import clsx from 'clsx'
+import styles from "./styles.module.css";
+import clsx from "clsx";
 
-function Title_v2(){
-    return(
-        <div className={styles.title_box}>
-            <h2>Land And Sea</h2>
-            <div className={styles.content}>
-                <p>1hr 45minutes</p>
-                <p>1994-03-10</p>
-                <p>Romantic</p>
-                <p>U/A 18+</p>
-            </div>
-        </div>
-    )
+function Title_v2(data) {
+  return (
+    <div className={styles.title_box}>
+      <h2>{data.name ? data.name : "Land And Sea"}</h2>
+      <div className={styles.content}>
+        <p>{data.duration ? data.duration : '1hr 45minutes'}</p>
+        <p>{data.releaseDate ? data.releaseDate : '1994-03-10'}</p>
+        <p>{data.category ? data.category.join(' - ') : 'Romantic'}</p>
+        <p>{data.ageRating ? data.ageRating : 'U/A 18+'}</p>
+      </div>
+    </div>
+  );
 }
 
-export default Title_v2
+export default Title_v2;

@@ -344,33 +344,35 @@ video::-webkit-media-controls-panel {
 .content_box .nav > div:first-child {
   flex-basis: 50%;
 }
-.content_box .nav > div:first-child .highlight{
+.content_box .nav > div:first-child .highlight {
   flex-basis: 15%;
 }
 .content_box .nav > div:last-child {
   flex-basis: 50%;
   justify-content: flex-end;
-  gap: 10px
+  gap: 10px;
 }
-.content_box .nav > div:last-child button{
+.content_box .nav > div:last-child button {
   background-color: rgba(0, 0, 0, 0);
 }
-.content_box .nav > div:last-child button i{
+.content_box .nav > div:last-child button i {
   font-size: 35px;
 }
-.content_box .nav > div:last-child button:hover i{
+.content_box .nav > div:last-child button:hover i {
   color: rgb(244, 24, 28);
 }
-.content_box .nav > div:last-child button.active i{
+.content_box .nav > div:last-child button.active i {
   color: rgb(244, 24, 28);
+}
+
+.movie_container{
+  overflow: hidden;
 }
 .movie_box{
-  padding-bottom: 50px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 25px
+  white-space: nowrap;
 }
-.movie_box >*{
-  display: flex;
-  justify-content: center;
+.movie_box > *{
+  display: inline-block;
+  width: calc(25% - 29px);
+  margin-right: 40px;
 }

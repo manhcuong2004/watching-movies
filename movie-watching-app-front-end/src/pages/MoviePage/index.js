@@ -2,8 +2,58 @@ import styles from "./styles.module.css";
 import Title_v2 from "../../components/components/Title_v2";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import Movie from '../../components/components/Movie'
+import Movie from "../../components/components/Movie";
+import { useParams } from "react-router-dom";
 function MoviePage() {
+  const [data, setData] = useState(null);
+  const { movieName } = useParams();
+  const [data_movie, setDataMovie] = useState(null);
+  const movie_box_ref = useRef();
+  useEffect(() => {
+    fetch("http://localhost:5000/api/movie")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        // console.log("Success:", data);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
+  useEffect(() => {
+    if (data) {
+      const movieFound = data.movies.find((movie) => movie.name === movieName);
+      if (movieFound) {
+        setDataMovie(movieFound);
+        console.log("Found movie:", movieFound);
+        // console.log("src:", movieFound.video);
+        // console.log("banner:", movieFound.banner);
+        // console.log("category:", movieFound.category);
+      }
+    }
+  }, [data, movieName]);
+
+  useEffect(() => {
+    if (!movie_box_ref.current) return;
+
+    const movie_box = movie_box_ref.current;
+    let count = 0;
+
+    movie_box.style.transition = "transform 0.5s ease-in-out";
+
+    const interval = setInterval(() => {
+      const numberOfMovies = movie_box.children.length;
+      if (numberOfMovies === 0) return;
+
+      if (numberOfMovies - count <= 4) {
+        count = 0;
+      }
+
+      movie_box.style.transform = `translateX(calc(${count} * (-25% - 11px)))`;
+      count++;
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const videoRef = useRef();
   const rangeInputRef = useRef();
   const totalTimeRef = useRef();
@@ -17,16 +67,8 @@ function MoviePage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [dataPoster, setDataPoster] = useState(null);
   const mouseMoveTimeoutRef = useRef(null);
   const lastPositionRef = useRef({ x: 0, y: 0 });
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      const videoSrc = video.getAttribute("data_poster");
-      setDataPoster(videoSrc);
-    }
-  }, []);
 
   const handleAudioVideo = () => {
     const video = videoRef.current;
@@ -349,7 +391,7 @@ function MoviePage() {
     const like_button = favourite_box.querySelectorAll("button");
 
     like_button.forEach((button) => {
-      console.log(button)
+      console.log(button);
       if (button === eventTarget) {
         button.classList.toggle(styles.active);
       } else {
@@ -361,7 +403,13 @@ function MoviePage() {
   return (
     <div className={styles.moviePage_container}>
       <div className={styles.title_box}>
-        <Title_v2 />
+        <Title_v2
+          name={data_movie ? data_movie.name : ""}
+          duration={data_movie ? data_movie.duration : ""}
+          releaseDate={data_movie ? data_movie.releaseDate : ""}
+          category={data_movie ? data_movie.category : ""}
+          ageRating={data_movie ? data_movie.ageRating : ""}
+        />
       </div>
       <div className={styles.main}>
         <div id="video" className={clsx(isFullscreen ? styles.fullScreen : "")}>
@@ -378,13 +426,13 @@ function MoviePage() {
                 className={clsx(styles.play, isPlaying ? styles.hidden : "")}
                 onClick={handlePlayPause}
               >
-                <i class="zmdi zmdi-play"></i>
+                <i className="zmdi zmdi-play"></i>
               </button>
               <button
                 className={clsx(styles.pause, isPlaying ? "" : styles.hidden)}
                 onClick={handlePlayPause}
               >
-                <i class="zmdi zmdi-pause"></i>
+                <i className="zmdi zmdi-pause"></i>
               </button>
             </div>
             <div className={styles.progress}>
@@ -396,7 +444,7 @@ function MoviePage() {
                 ref={rangeInputRef}
                 onMouseMove={handelMouseMove}
                 onMouseOut={handelMouseOut}
-                defaultValue={0}
+                defaultValue="0"
                 onInput={handleMouseProgress}
               />
               <span className={styles.hidden} ref={curTimeRef_dialog}></span>
@@ -412,13 +460,13 @@ function MoviePage() {
                   className={clsx(isMuted ? styles.hidden : "")}
                   onClick={handleMutedClick}
                 >
-                  <i class="zmdi zmdi-volume-up"></i>
+                  <i className="zmdi zmdi-volume-up"></i>
                 </button>
                 <button
                   className={clsx(isMuted ? "" : styles.hidden)}
                   onClick={handleMutedClick}
                 >
-                  <i class="zmdi zmdi-volume-off"></i>
+                  <i className="zmdi zmdi-volume-off"></i>
                 </button>
               </div>
               <input
@@ -435,7 +483,7 @@ function MoviePage() {
                 className={styles.setting_icon}
                 onClick={handleToggleMenu}
               >
-                <i class="zmdi zmdi-settings"></i>
+                <i className="zmdi zmdi-settings"></i>
               </button>
               <div
                 className={clsx(styles.menu_container)}
@@ -444,12 +492,12 @@ function MoviePage() {
                 <div className={styles.menu_box}>
                   <button onClick={handleMenu}>
                     <span>
-                      <i class="zmdi zmdi-chevron-left"></i>
+                      <i className="zmdi zmdi-chevron-left"></i>
                     </span>
                     <span>Speed</span>
                     <span>{isSpeedRate}</span>
                     <span>
-                      <i class="zmdi zmdi-chevron-right"></i>
+                      <i className="zmdi zmdi-chevron-right"></i>
                     </span>
                   </button>
                   <div role="menu">
@@ -481,7 +529,7 @@ function MoviePage() {
             </div>
             <div className={styles.pip_box} onClick={handlePip}>
               <button>
-                <i class="zmdi zmdi-open-in-new"></i>
+                <i className="zmdi zmdi-open-in-new"></i>
               </button>
               <span className={styles.pip}></span>
             </div>
@@ -490,13 +538,13 @@ function MoviePage() {
                 onClick={toggleFullScreen}
                 className={isFullscreen ? styles.hidden : ""}
               >
-                <i class="zmdi zmdi-fullscreen"></i>
+                <i className="zmdi zmdi-fullscreen"></i>
               </button>
               <button
                 className={isFullscreen ? "" : styles.hidden}
                 onClick={toggleFullScreen}
               >
-                <i class="zmdi zmdi-fullscreen-exit"></i>
+                <i className="zmdi zmdi-fullscreen-exit"></i>
               </button>
             </div>
           </div>
@@ -507,8 +555,12 @@ function MoviePage() {
             )}
           >
             <video
-              src="/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
-              data_poster="https://img.youtube.com/vi/uPaQjrlREdI/maxresdefault.jpg"
+              src={
+                data_movie && data_movie.video
+                  ? "https://imdb-video.media-imdb.com/vi1732429337/1434659607842-pgv4ql-1727709679751.mp4?Expires=1737536733&Signature=GKJflX1ILnMAxJ8rWSOR-KrkXByoWi9sQLCCDlk0~VsRwYCXQWlEQId0r5bQqfYKjPcklmeKZwlL2KVBdpqb33dARXRnDhRcoJsRVzxLFIJ8A5UI7R4TMlh2wNudwo8APrQJqKc3AXmRhwIUCqrJ-HAgrz~7R-91b-xzzRd0r0pH6IlApMMGHJU180iBg0NvyNF7~psuZx7gitzdFwqIkG9rzCyVXWD74pk7VqeFVEpDVqojru0XwUb2f5IdZOnFiaI3XQqbgnC8w7MK8VPDU4GM7mpuhYEIFR2Q8YUTPt6syo7qZrlFpRfXWIT7pnUEQ7ad6Fkq2O4-uhWSc9N1jA__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA"
+                  : "/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
+              }
+              // src="/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
               ref={videoRef}
               onPlay={() => {
                 setIsPlaying(true);
@@ -520,7 +572,9 @@ function MoviePage() {
             ></video>
             <div
               className={styles.background_img}
-              style={{ backgroundImage: `url(${dataPoster})` }}
+              style={{
+                backgroundImage: `url(${data_movie ? data_movie.banner : ""})`,
+              }}
               ref={background_imgRef}
               onClick={() => {
                 handleOffBackground();
@@ -533,72 +587,73 @@ function MoviePage() {
               onClick={handlePlayPause}
               className={isPlaying ? styles.focus : ""}
             >
-              <i class="zmdi zmdi-play"></i>
+              <i className="zmdi zmdi-play"></i>
             </button>
-          </div>
+          </div>  
         </div>
         <div className={styles.content_box}>
           <div className={styles.direc}>
             <p>
-              <span className={styles.highlight}>Director : </span> Brent
-              Robinson
+              <span className={styles.highlight}>Director : </span>{" "}
+              {data_movie ? data_movie.director : ""}
             </p>
             <p>
-              <span className={styles.highlight}>Starring : </span> Sangel
-              Juergens, Joel McGill, Sandra Keller, Roy Johnson, Jerry Matherne,
-              Cheryl Pope, Edward D. Kivi
+              <span className={styles.highlight}>Starring : </span>{" "}
+              {data_movie ? data_movie.stars.join(" - ") : ""}
             </p>
           </div>
-          <p>
-            Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Ut
-            enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
-            enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
-            enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
-            enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
-          </p>
-          <p>
-            Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Ut
-            enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?Ut
-            enim ad minima veniam, quis nostrum exercitationem ullam corporis
-            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
-          </p>
+          <p>{data_movie ? data_movie.description : ""}</p>
+
           <div className={styles.nav}>
             <div>
               <span className={styles.highlight}>Share : </span>
               <div className={styles.iconBox}>
                 <button>
-                  <i class="zmdi zmdi-facebook"></i>
+                  <i className="zmdi zmdi-facebook"></i>
                 </button>
                 <button>
-                  <i class="zmdi zmdi-instagram"></i>
+                  <i className="zmdi zmdi-instagram"></i>
                 </button>
                 <button>
-                  <i class="zmdi zmdi-linkedin-box"></i>
+                  <i className="zmdi zmdi-linkedin-box"></i>
                 </button>
               </div>
             </div>
             <div ref={favourite_box_ref}>
               <button onClick={handleLike}>
-                <i class="zmdi zmdi-thumb-up"></i>
+                <i className="zmdi zmdi-thumb-up"></i>
               </button>
               <button onClick={handleLike}>
-                <i class="zmdi zmdi-thumb-down"></i>
+                <i className="zmdi zmdi-thumb-down"></i>
               </button>
             </div>
           </div>
         </div>
-        <div className ={styles.movie_box}>
-              <Movie/>
-              <Movie/>
-              <Movie/>
-              <Movie/>
+        <div>
+          <div className={styles.movie_container}>
+            <div className={styles.movie_box} ref={movie_box_ref}>
+              {data
+                ? data.movies
+                    .filter((movie) => {
+                      // Kiểm tra thể loại trùng và tên phim không trùng với data_movie
+                      return (
+                        movie.category.some(
+                          (cat) =>
+                            data_movie && data_movie.category.includes(cat)
+                        ) && movie.name !== data_movie.name
+                      );
+                    })
+                    .map((movie, idx) => (
+                      <Movie
+                        id={movie._id}
+                        key={idx}
+                        name={movie.name}
+                        img_src={movie.banner}
+                      />
+                    ))
+                : ""}
+            </div>
+          </div>
         </div>
       </div>
     </div>

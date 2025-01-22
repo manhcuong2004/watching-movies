@@ -38,9 +38,12 @@
 .container {
   padding: 50px 100px 0;
 }
+.swiper_container{
+  overflow-x: hidden;
+}
 .box {
   white-space: nowrap;
-  overflow-x: hidden;
+  transition: transform ease 0.5s;
 }
 .box > * {
   display: inline-block;

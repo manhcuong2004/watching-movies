@@ -23,10 +23,15 @@
   color: white;
   text-transform: capitalize;
   font-size: 12px;
+  text-align: center;
+  padding: 0 12px;
 }
-.movie_content h3{
+.movie_content h3 {
   font-size: 14px;
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
 }
 .movie_content .quality {
   margin-top: 5px;
@@ -34,20 +39,26 @@
 .movie_content .movie_button {
   padding: 6px 12px;
   background-color: rgb(244, 24, 28);
-  color: white;
-  text-transform: capitalize;
-  font-weight: 600;
   border-radius: 5px;
   margin-top: 12px;
   border: none;
+}
+.movie_content .movie_button > * {
+  color: white;
+  text-transform: capitalize;
+  font-weight: 600;
+  text-decoration: none;
 }
 .movie_content .name:hover {
   color: rgb(255, 171, 0);
 }
 .movie_content .movie_button:hover {
-  color: rgb(51, 51, 51);
   background-color: white;
+  * {
+    color: rgb(51, 51, 51);
+  }
 }
+
 /* end content */
 .movie_container .movie_box img {
   display: block;
@@ -65,4 +76,3 @@
     transition: bottom 0.5s ease, opacity 0.5s ease;
   }
 }
-

@@ -5,7 +5,7 @@ function Contact(){
     return (
         <div className={styles.contact_container}>
             <div className={styles.nav_box}>
-                <Nav />
+                <Nav name ={'contact us'}/>
             </div>
             <div className={styles.form_box}>
                 <form action="">

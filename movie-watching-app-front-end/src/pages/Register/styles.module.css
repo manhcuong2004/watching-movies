@@ -87,9 +87,3 @@
 .form_box .form .form_group:last-child input.active{
     display: block;
 }
-.form_box .form .form_group:nth-child(3){
-    display: none;
-}
-.form_box .form .form_group:nth-child(3).active{
-    display: block;
-}

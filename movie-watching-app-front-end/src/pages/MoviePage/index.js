@@ -557,7 +557,7 @@ function MoviePage() {
             <video
               src={
                 data_movie && data_movie.video
-                  ? "https://imdb-video.media-imdb.com/vi1732429337/1434659607842-pgv4ql-1727709679751.mp4?Expires=1737536733&Signature=GKJflX1ILnMAxJ8rWSOR-KrkXByoWi9sQLCCDlk0~VsRwYCXQWlEQId0r5bQqfYKjPcklmeKZwlL2KVBdpqb33dARXRnDhRcoJsRVzxLFIJ8A5UI7R4TMlh2wNudwo8APrQJqKc3AXmRhwIUCqrJ-HAgrz~7R-91b-xzzRd0r0pH6IlApMMGHJU180iBg0NvyNF7~psuZx7gitzdFwqIkG9rzCyVXWD74pk7VqeFVEpDVqojru0XwUb2f5IdZOnFiaI3XQqbgnC8w7MK8VPDU4GM7mpuhYEIFR2Q8YUTPt6syo7qZrlFpRfXWIT7pnUEQ7ad6Fkq2O4-uhWSc9N1jA__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA"
+                  ? "/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
                   : "/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
               }
               // src="/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
@@ -589,7 +589,7 @@ function MoviePage() {
             >
               <i className="zmdi zmdi-play"></i>
             </button>
-          </div>  
+          </div>
         </div>
         <div className={styles.content_box}>
           <div className={styles.direc}>

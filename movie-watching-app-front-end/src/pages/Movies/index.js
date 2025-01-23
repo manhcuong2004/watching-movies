@@ -60,7 +60,7 @@ function Movies() {
         </div>
         {movies ? (
           <Pagination
-            totalPage={Math.floor(movies.length / 12) + 1}
+            totalPage={movies.length % 12 !== 0 ? Math.floor(movies.length / 12) + 1 : movies.length / 12}
             currentPage={currentPage}
             type = 'movies'
             category={categoryName}

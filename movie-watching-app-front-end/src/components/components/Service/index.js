@@ -1,12 +1,13 @@
 import clsx from "clsx";
 import styles from './styles.module.css'
 
-function Service(){
+function Service(data){
+    console.log(data)
     return(
         <div className={styles.container}>
-            <div className ={styles.price}>
-                <h2>$0.00</h2>
-                <h4>Free</h4>
+            <div className ={clsx(styles.price, data.check ? styles.redBackGround : '')}>
+                <h2>${data.price ? data.price : 0}</h2>
+                <h4>{data.level ? data.level : 'Free'}</h4>
             </div>
             <div className={styles.content}>
                 <ol>

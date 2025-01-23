@@ -6,7 +6,7 @@ function MyProfile(){
     return(
         <div className ={styles.myprofile_container}>
             <div className ={styles.nav_box}>
-                <Nav/>
+                <Nav name ={'profile'}/>
             </div>
             <div className = {styles.main}>
                 <div className={styles.aside}>

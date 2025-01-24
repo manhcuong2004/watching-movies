@@ -4,15 +4,9 @@ const FAQ = require('../../models/faq-model')
 
 module.exports.landing = async (req, res) => {
     try {
-        const movie = await Movie.find({
-            delete: false
-        })
-        const tvseries = await TVseries.find({
-            delete: false
-        })
-        const faq = await FAQ.find({
-            delete: false
-        })
+        const movie = await Movie.find();
+        const tvseries = await TVseries.find();
+        const faq = await FAQ.find();
         res.json({ movie, tvseries, faq })
     } catch (error) {
         res.status(500).json({ message: err.message });

@@ -36,7 +36,9 @@ function Layout() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/movie-page/:slug" element={<MoviePage />} />
+        <Route path="/:type/:slug" element={<MoviePage />} />
+        <Route path="/:type/:slug/:currentEpsiode" element={<MoviePage />} />
+        {/* <Route path="/movie-page/tv/:slug" element={<MoviePage />} /> */}
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/my-account" element={<MyAccount />} />
       </Routes>

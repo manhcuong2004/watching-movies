@@ -389,6 +389,40 @@ video::-webkit-media-controls-panel {
 .content_box > p {
   font-size: 14px;
 }
+.epsiode_box {
+  width: 100%;
+}
+.container_epsiode {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  margin-bottom: 18px;
+}
+.epsiode_box h1 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.epsiode_box .epsiode_all {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px ;
+}
+.epsiode_box .epsiode_all a{
+  text-decoration: none;
+  color: white;
+}
+.epsiode_box .epsiode_all .epsiode {
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(18, 34, 45);
+  font-size: 13px;
+}
+.epsiode_box .epsiode_all .epsiode:hover {
+  background-color: white;
+  color: #000;
+}
+
 @media (min-width: 640px) {
   .main > * {
     max-width: 640px;
@@ -398,6 +432,7 @@ video::-webkit-media-controls-panel {
     height: 35px;
     line-height: 35px;
   }
+
 }
 @media (min-width: 768px) {
   .main > * {

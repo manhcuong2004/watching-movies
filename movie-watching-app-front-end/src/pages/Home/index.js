@@ -233,6 +233,7 @@ function Home() {
                           img_src={movie.movie.poster_url}
                           quality={movie.movie.quality}
                           slug={movie.movie.slug}
+                          type={movie.movie.tmdb.type || "movie"}
                         />
                       ))}
                     </div>

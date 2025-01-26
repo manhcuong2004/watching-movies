@@ -3,37 +3,38 @@ import Title_v2 from "../../components/components/Title_v2";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import Movie from "../../components/components/Movie";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Hls from "hls.js";
 function MoviePage() {
   const [data, setData] = useState(null);
-  const { slug } = useParams();
+  const { type, slug, currentEpsiode } = useParams();
   const [data_movie, setDataMovie] = useState(null);
   const movie_box_ref = useRef();
   const [src, setSrc] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/movie")
+    fetch("http://localhost:5000/api/home")
       .then((response) => response.json())
       .then((data) => {
         setData(data);
-        console.log("Success:", data);
+        // console.log("Success:", data.tvseries);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
   useEffect(() => {
     if (data) {
-      const movieFound = data.movies.find((movie) => movie.movie.slug === slug);
+      let movieFound;
+      if (type === "movie") {
+        movieFound = data.movies.find((movie) => movie.movie.slug === slug);
+      } else {
+        movieFound = data.tvseries.find((movie) => movie.movie.slug === slug);
+      }
       if (movieFound) {
         setDataMovie(movieFound);
-        data_movie && setSrc(data_movie.episodes[0].server_data[0].link_m3u8);
-        console.log(
-          "Found movie:",
-          movieFound.episodes[0].server_data[0].link_m3u8
-        );
+        data_movie && setSrc(data_movie.episodes[0].server_data[0].link_embed);
       }
     }
-  }, [data, slug]);
+  }, [data, type, slug, currentEpsiode]);
   const updateParams = () => {
     const rootStyles = getComputedStyle(document.documentElement);
     const quantity = rootStyles.getPropertyValue("--quantity").trim();
@@ -65,7 +66,6 @@ function MoviePage() {
     const handelResize = () => {
       count = 0;
       movie_box.style.transform = `translateX(0)`;
-
     };
     window.addEventListener("resize", handelResize);
     return () => {
@@ -456,7 +456,7 @@ function MoviePage() {
             duration={data_movie ? data_movie.movie.time : ""}
             releaseDate={data_movie ? data_movie.movie.year : ""}
             category={data_movie ? data_movie.movie.category : ""}
-            // ageRating={data_movie ? data_movie.ageRating : ""}
+            current_epsiode={data_movie && currentEpsiode ? currentEpsiode : ""}
           />
         )}
       </div>
@@ -645,6 +645,29 @@ function MoviePage() {
             </button>
           </div>
         </div>
+        {data_movie && currentEpsiode && (
+          <div className={styles.epsiode_box}>
+            <div className={styles.container_epsiode}>
+              <h1>Toàn bộ các tập phim</h1>
+              <div className={styles.epsiode_all}>
+                {data &&
+                  data_movie &&
+                  data_movie.episodes[0].server_data.map((epsiode) => (
+                    <Link to={`/${type}/${slug}/${epsiode.slug}`}>
+                      <div className={styles.epsiode}>
+                        <div className={styles.img_box}>
+                          <img src="" alt="" />
+                        </div>
+                        <div className={styles.content}>
+                          <h3>{epsiode.name}</h3>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            </div>
+          </div>
+        )}
         <div className={styles.content_box}>
           <div className={styles.direc}>
             <p>
@@ -705,11 +728,12 @@ function MoviePage() {
                     })
                     .map((movie, idx) => (
                       <Movie
-                        key={movie.movie._id}
+                        key={idx}
                         name={movie.movie.name}
                         img_src={movie.movie.poster_url}
                         quality={movie.movie.quality}
                         slug={movie.movie.slug}
+                        type={movie.movie.tmdb.type || "movie"}
                       />
                     ))
                 : ""}

@@ -11,6 +11,16 @@ function Title_v2(data) {
         <p>
           {data.category.map((item) => item.name).join(" - ") || "Romantic"}
         </p>
+        {data.current_epsiode && (
+          <p>
+            Tập{" "}
+            {
+              data.current_epsiode.split("-")[
+                data.current_epsiode.split("-").length - 1
+              ]
+            }
+          </p>
+        )}
       </div>
     </div>
   );

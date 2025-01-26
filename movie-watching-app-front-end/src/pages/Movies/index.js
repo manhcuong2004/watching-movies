@@ -177,6 +177,7 @@ function Movies() {
                     name={movie.movie.name}
                     img_src={movie.movie.poster_url}
                     quality={movie.movie.quality}
+                    type={movie.movie.tmdb.type || "movie"}
                     slug={movie.movie.slug}
                   />
                 );

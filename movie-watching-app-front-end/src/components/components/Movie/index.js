@@ -8,13 +8,12 @@ import {
 } from "react-router-dom";
 function Movie(data) {
   const [imageError, setImageError] = useState(false);
-  // Hàm xử lý lỗi ảnh
   const handleImageError = () => {
-    setImageError(true); // Đánh dấu lỗi khi ảnh không thể tải
+    setImageError(true);
   };
   return (
     <div className={styles.movie_container}>
-      <Link className={styles.movie_box} to={`/movie-page/${data.slug}`}>
+      <Link className={styles.movie_box} to={`/${data.type}/${data.slug}`}>
         <img
           src={
             imageError
@@ -27,7 +26,7 @@ function Movie(data) {
           <h3 className={styles.name}>{data.name}</h3>
           <p className={styles.quality}>quality : {data.quality}</p>
           <button className={styles.movie_button}>
-            <Link to={`/movie-page/${data.slug}`}>watch now</Link>
+            <Link to={`/${data.type}/${data.slug}`}>watch now</Link>
           </button>
         </div>
       </Link>

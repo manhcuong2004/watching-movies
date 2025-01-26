@@ -11,7 +11,7 @@ function Header() {
       .then((reponse) => reponse.json())
       .then((data) => {
         setData(data);
-        console.log("Suscess:", data);
+        // console.log(data.movies);
       });
   }, []);
   const [isSearch, setIsSearch] = useState();
@@ -81,7 +81,7 @@ function Header() {
               {data &&
                 series &&
                 series.map((cat, index) => (
-                  <Link key={index} to={`/series/${cat.slug}`} > 
+                  <Link key={index} to={`/series/${cat.slug}`}>
                     {cat.name} Series
                   </Link>
                 ))}
@@ -93,7 +93,7 @@ function Header() {
               {data &&
                 category &&
                 category.map((cat, index) => (
-                  <Link key={index} to={`/movies/${cat.slug}`} >
+                  <Link key={index} to={`/movies/${cat.slug}`}>
                     {cat.name} Movies
                   </Link>
                 ))}

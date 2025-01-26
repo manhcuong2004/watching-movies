@@ -14,11 +14,21 @@ function Home() {
   const [startX, setStartX] = useState(0);
   const [currentTranslate, setCurrentTranslate] = useState(0);
   const [prevTranslate, setPrevTranslate] = useState(0);
+  const updateParams = () => {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const quantity = rootStyles.getPropertyValue("--quantity").trim();
+    const margin = rootStyles.getPropertyValue("--margin").trim();
+    const width = rootStyles.getPropertyValue("--width").trim();
+    const next = rootStyles.getPropertyValue("--next").trim();
+    return { quantity, margin, width, next };
+  };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/home")
+    fetch("http://localhost:5000/api/movie")
       .then((response) => response.json())
-      .then((data) => setData(data))
+      .then((data) => {
+        setData(data);
+      })
       .catch((error) => console.error("Error:", error));
   }, []);
 
@@ -33,7 +43,6 @@ function Home() {
   useEffect(() => {
     const slides = slidesRef.current;
     slides.style.transform = `translateX(calc(-${currentIndex * 100}%))`;
-    console.log("total:", slides.children.length, "current:", currentIndex + 1);
   }, [currentIndex]);
 
   const handleNextButton = () => {
@@ -88,16 +97,18 @@ function Home() {
   const [currentMovies, setCurrentMovies] = useState([]);
   useEffect(() => {
     if (data?.category?.length) {
-      setCurrentMovies(new Array(data.category.length).fill(0)); // Khởi tạo trạng thái cho mỗi box
+      setCurrentMovies(new Array(data.category.length).fill(0));
     }
   }, [data]);
 
   const handleNextButtonMovie = (index) => {
+    const { quantity, width, next } = updateParams();
+
     const box = boxRefs.current[index];
-    if (box.children.length - currentMovies[index] <= 5) return;
+    if (box.children.length - currentMovies[index] <= quantity) return;
     box.style.transform = `translateX(calc(${
       currentMovies[index] + 1
-    } * (-20% - 8px)))`;
+    } * (-${width} - ${next})))`;
     setCurrentMovies((prev) => {
       const updatedMovies = [...prev];
       updatedMovies[index] = updatedMovies[index] + 1;
@@ -106,17 +117,33 @@ function Home() {
   };
 
   const handlePrevButtonMovie = (index) => {
+    const { width, next } = updateParams();
     if (currentMovies[index] === 0) return;
     const box = boxRefs.current[index];
     box.style.transform = `translateX(calc(${
       currentMovies[index] - 1
-    } * (-20% - 8px)))`;
+    } * (-${width} - ${next})))`;
     setCurrentMovies((prev) => {
       const updatedMovies = [...prev];
       updatedMovies[index] = updatedMovies[index] - 1;
       return updatedMovies;
     });
   };
+  useEffect(() => {
+    const handleResize = () => {
+      if (boxRefs.current) {
+        boxRefs.current.forEach((box) => {
+          box.style.transform = "translateX(0)";
+        });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div>
@@ -130,12 +157,19 @@ function Home() {
             onMouseUp={handleTouchEnd}
             onMouseLeave={() => isDragging && handleTouchEnd()}
           >
-            <Sidebar />
-            <Sidebar
-              img={
-                "https://streamo.vuejstemplate.com/images/slider/slider-hm4-1.jpg "
-              }
-            />
+            {data &&
+              data.movies
+                .slice(0, 4)
+                .map((movie, index) => (
+                  <Sidebar
+                    key={index}
+                    img={movie.movie.thumb_url}
+                    name={movie.movie.name}
+                    category={movie.movie.category}
+                    time={movie.movie.time}
+                    slug={movie.movie.slug}
+                  />
+                ))}
           </div>
           <div className={styles.sidebar_arrow}>
             <button
@@ -157,47 +191,56 @@ function Home() {
           </div>
         </div>
         {data &&
-          data.category.map((category, index) => (
-            <div className={styles.container} key={index}>
-              <Title name={category.name} />
-              <div className={styles.title_arrow_box}>
-                <button onClick={() => handlePrevButtonMovie(index)}>
-                  <i
-                    className={clsx(
-                      "zmdi zmdi-chevron-left",
-                      styles.arrow_icon
-                    )}
-                  ></i>
-                </button>
-                <button onClick={() => handleNextButtonMovie(index)}>
-                  <i
-                    className={clsx(
-                      "zmdi zmdi-chevron-right",
-                      styles.arrow_icon
-                    )}
-                  ></i>
-                </button>
-              </div>
-              <div className={styles.swiper_container}>
-                <div
-                  className={styles.box}
-                  ref={(el) => (boxRefs.current[index] = el)}
-                >
-                  {data.movies.map(
-                    (movie, idx) =>
-                      movie.category.includes(category.name) && (
+          data.category.map((category, index) => {
+            const filteredMovies = data.movies.filter((movie) =>
+              movie.movie.category.some((cat) =>
+                cat.name.includes(category.name)
+              )
+            );
+
+            return (
+              filteredMovies.length > 5 && (
+                <div className={styles.container} key={index}>
+                  <Title name={category.name} />
+                  <div className={styles.title_arrow_box}>
+                    <button onClick={() => handlePrevButtonMovie(index)}>
+                      <i
+                        className={clsx(
+                          "zmdi zmdi-chevron-left",
+                          styles.arrow_icon
+                        )}
+                      ></i>
+                    </button>
+                    <button onClick={() => handleNextButtonMovie(index)}>
+                      <i
+                        className={clsx(
+                          "zmdi zmdi-chevron-right",
+                          styles.arrow_icon
+                        )}
+                      ></i>
+                    </button>
+                  </div>
+                  <div className={styles.swiper_container}>
+                    <div
+                      className={styles.box}
+                      ref={(el) => (boxRefs.current[index] = el)}
+                    >
+                      {filteredMovies.map((movie) => (
                         <Movie
                           id={movie._id}
-                          key={idx}
-                          name={movie.name}
-                          img_src={movie.banner}
+                          key={movie._id}
+                          name={movie.movie.name}
+                          img_src={movie.movie.poster_url}
+                          quality={movie.movie.quality}
+                          slug={movie.movie.slug}
                         />
-                      )
-                  )}
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              )
+            );
+          })}
       </main>
     </div>
   );

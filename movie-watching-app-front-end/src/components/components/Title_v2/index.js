@@ -4,12 +4,13 @@ import clsx from "clsx";
 function Title_v2(data) {
   return (
     <div className={styles.title_box}>
-      <h2>{data.name ? data.name : "Land And Sea"}</h2>
+      <h2>{data.name || "Land And Sea"}</h2>
       <div className={styles.content}>
-        <p>{data.duration ? data.duration : '1hr 45minutes'}</p>
-        <p>{data.releaseDate ? data.releaseDate : '1994-03-10'}</p>
-        <p>{data.category ? data.category.join(' - ') : 'Romantic'}</p>
-        <p>{data.ageRating ? data.ageRating : 'U/A 18+'}</p>
+        <p>{data.duration || "1hr 45minutes"}</p>
+        <p>{data.releaseDate || "1994-03-10"}</p>
+        <p>
+          {data.category.map((item) => item.name).join(" - ") || "Romantic"}
+        </p>
       </div>
     </div>
   );

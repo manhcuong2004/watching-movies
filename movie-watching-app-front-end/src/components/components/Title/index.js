@@ -5,7 +5,7 @@ function Title(data) {
   return (
     <div className={styles.title_container}>
       <div className={styles.title_content}>
-        <h3>{data.name}</h3>
+        <h2>{data.name}</h2>
       </div>
     </div>
   );

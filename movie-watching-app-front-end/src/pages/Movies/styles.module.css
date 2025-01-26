@@ -1,9 +1,97 @@
-.content_container{
-    padding: 50px 0;
+.content_container {
+  padding: 50px 0;
 }
-.box{
-    padding: 0 100px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 30px 30px
+.box {
+  padding: 0 100px;
+  display: grid;
+  grid-template-columns: repeat(var(--quantity), 1fr);
+  gap: 30px 30px;
+}
+.sidebar_container {
+  position: relative;
+}
+.sidebar_arrow {
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  right: -40px;
+  display: flex;
+  justify-content: space-between;
+  transition: left 0.5s ease, right 0.5s ease;
+}
+.sidebar_arrow button {
+  background: none;
+  background: none;
+  border: none;
+  padding: 16px 24px;
+}
+.sidebar_arrow i {
+  font-size: 50px;
+  color: rgb(244, 24, 28);
+}
+.sidebar_container:hover .sidebar_arrow {
+  left: 5px;
+  right: 5px;
+  transition: left 0.5s ease, right 0.5s ease;
+}
+.sidebar_arrow button:active i {
+  color: white;
+}
+
+.sidebar_arrow button:hover {
+  background: none;
+}
+.slides {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.slides > * {
+  /* display: inline-block; */
+  min-width: 100%;
+}
+
+@media (min-width: 1500px) {
+  :root {
+    --next: 7px;
+    --quantity: 6;
+    --margin: 33px;
+    --width: 16.666666%;
+    --width_movie: calc(var(--width) - var(--margin));
+  }
+}
+@media (max-width: 1500px) {
+  :root {
+    --next: 8px;
+    --quantity: 5;
+    --margin: 32px;
+    --width: 20%;
+    --width_movie: calc(var(--width) - var(--margin));
+  }
+}
+@media (max-width: 1300px) {
+  :root {
+    --next: 10px;
+    --quantity: 4;
+    --margin: 30px;
+    --width: 25%;
+    --width_movie: calc(var(--width) - var(--margin));
+  }
+}
+@media (max-width: 1024px) {
+  :root {
+    --next: 13px;
+    --quantity: 3;
+    --margin: 27px;
+    --width: 33.3333%;
+    --width_movie: calc(var(--width) - var(--margin));
+  }
+}
+@media (max-width: 768px) {
+  :root {
+    --next: 20px;
+    --quantity: 2;
+    --margin: 20px;
+    --width: 50%;
+    --width_movie: calc(var(--width) - var(--margin));
+  }
 }

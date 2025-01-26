@@ -1,3 +1,6 @@
+:root {
+  --width_movie: calc(20% - 32px);
+}
 .slider_container {
   position: relative;
   overflow-x: hidden;
@@ -36,9 +39,10 @@
   color: white;
 }
 .container {
-  padding: 50px 100px 0;
+  padding: 50px 40px 0;
+  position: relative;
 }
-.swiper_container{
+.swiper_container {
   overflow-x: hidden;
 }
 .box {
@@ -48,14 +52,13 @@
 .box > * {
   display: inline-block;
   margin-right: 40px;
-  width: calc(20% - 32px);
+  width: var(--width_movie);
+  /* width: calc(20% - 32px); */
 }
-.container {
-  position: relative;
-}
+
 .container .title_arrow_box {
   position: absolute;
-  right: 100px;
+  right: 40px;
   top: 40px;
   color: white;
   display: flex;
@@ -76,4 +79,22 @@
 .container .title_arrow_box button:hover {
   background-color: rgb(244, 24, 28);
   transition: background-color 0.5s ease;
+}
+@media (min-width: 1500px) {
+  .container {
+    padding: 50px 100px 0;
+  }
+  .container .title_arrow_box {
+    right: 100px;
+  }
+ 
+}
+@media (max-width: 1300px) {
+  
+}
+@media (max-width: 1024px) {
+  
+}
+@media (max-width: 768px) {
+  
 }

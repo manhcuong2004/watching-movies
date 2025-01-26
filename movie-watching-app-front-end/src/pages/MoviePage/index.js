@@ -4,32 +4,36 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import Movie from "../../components/components/Movie";
 import { useParams } from "react-router-dom";
+import Hls from "hls.js";
 function MoviePage() {
   const [data, setData] = useState(null);
-  const { movieName } = useParams();
+  const { slug } = useParams();
   const [data_movie, setDataMovie] = useState(null);
   const movie_box_ref = useRef();
+  const [src, setSrc] = useState();
+
   useEffect(() => {
     fetch("http://localhost:5000/api/movie")
       .then((response) => response.json())
       .then((data) => {
         setData(data);
-        // console.log("Success:", data);
+        console.log("Success:", data);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
   useEffect(() => {
     if (data) {
-      const movieFound = data.movies.find((movie) => movie.name === movieName);
+      const movieFound = data.movies.find((movie) => movie.movie.slug === slug);
       if (movieFound) {
         setDataMovie(movieFound);
-        console.log("Found movie:", movieFound);
-        // console.log("src:", movieFound.video);
-        // console.log("banner:", movieFound.banner);
-        // console.log("category:", movieFound.category);
+        data_movie && setSrc(data_movie.episodes[0].server_data[0].link_m3u8);
+        console.log(
+          "Found movie:",
+          movieFound.episodes[0].server_data[0].link_m3u8
+        );
       }
     }
-  }, [data, movieName]);
+  }, [data, slug]);
 
   useEffect(() => {
     if (!movie_box_ref.current) return;
@@ -199,7 +203,13 @@ function MoviePage() {
     clearTimeout(mouseMoveTimeoutRef.current); // Clear any previous timeout
 
     if (isPlaying) {
-      video.play();
+      if (hlsRef.current) {
+        hlsRef.current.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play();
+        });
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.play();
+      }
 
       // Use mouseMoveTimeoutRef to store the timeout reference
       mouseMoveTimeoutRef.current = setTimeout(() => {
@@ -399,17 +409,40 @@ function MoviePage() {
       }
     });
   };
+  const hlsRef = useRef(null);
+  useEffect(() => {
+    if (!src) return;
+    // Kiểm tra nếu trình duyệt hỗ trợ Hls.js
+    if (Hls.isSupported()) {
+      hlsRef.current = new Hls(); // Tạo instance của Hls
+      hlsRef.current.loadSource(src); // Load video từ src
+      hlsRef.current.attachMedia(videoRef.current); // Gắn media element
+
+      // Cleanup khi component bị unmount
+      return () => {
+        if (hlsRef.current) {
+          hlsRef.current.destroy(); // Hủy instance của Hls
+          hlsRef.current = null;
+        }
+      };
+    } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
+      // Nếu trình duyệt hỗ trợ natively (Safari)
+      videoRef.current.src = src;
+    }
+  }, [src]);
 
   return (
     <div className={styles.moviePage_container}>
       <div className={styles.title_box}>
-        <Title_v2
-          name={data_movie ? data_movie.name : ""}
-          duration={data_movie ? data_movie.duration : ""}
-          releaseDate={data_movie ? data_movie.releaseDate : ""}
-          category={data_movie ? data_movie.category : ""}
-          ageRating={data_movie ? data_movie.ageRating : ""}
-        />
+        {data_movie && (
+          <Title_v2
+            name={data_movie ? data_movie.movie.name : ""}
+            duration={data_movie ? data_movie.movie.time : ""}
+            releaseDate={data_movie ? data_movie.movie.year : ""}
+            category={data_movie ? data_movie.movie.category : ""}
+            // ageRating={data_movie ? data_movie.ageRating : ""}
+          />
+        )}
       </div>
       <div className={styles.main}>
         <div id="video" className={clsx(isFullscreen ? styles.fullScreen : "")}>
@@ -556,11 +589,8 @@ function MoviePage() {
           >
             <video
               src={
-                data_movie && data_movie.video
-                  ? "/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
-                  : "/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
+                data_movie && data_movie.episodes[0].server_data[0].link_m3u8
               }
-              // src="/Hustlang Robber - King Vamp ft. Hổ (Official Lyric Video).mp4"
               ref={videoRef}
               onPlay={() => {
                 setIsPlaying(true);
@@ -568,12 +598,14 @@ function MoviePage() {
               onPause={() => {
                 setIsPlaying(false);
               }}
-              loop
+              Preload
             ></video>
             <div
               className={styles.background_img}
               style={{
-                backgroundImage: `url(${data_movie ? data_movie.banner : ""})`,
+                backgroundImage: `url(${
+                  data_movie && data_movie.movie.thumb_url
+                })`,
               }}
               ref={background_imgRef}
               onClick={() => {
@@ -594,15 +626,19 @@ function MoviePage() {
         <div className={styles.content_box}>
           <div className={styles.direc}>
             <p>
-              <span className={styles.highlight}>Director : </span>{" "}
-              {data_movie ? data_movie.director : ""}
+              <span className={clsx(styles.highlight, styles.direction)}>
+                Director :
+              </span>
+              {data_movie ? data_movie.movie.director : ""}
             </p>
             <p>
-              <span className={styles.highlight}>Starring : </span>{" "}
-              {data_movie ? data_movie.stars.join(" - ") : ""}
+              <span className={clsx(styles.highlight, styles.starring)}>
+                Starring :
+              </span>
+              {(data_movie && data_movie.movie.actor.join(" - ")) || ""}
             </p>
           </div>
-          <p>{data_movie ? data_movie.description : ""}</p>
+          <p>{(data_movie && data_movie.movie.content) || ""}</p>
 
           <div className={styles.nav}>
             <div>
@@ -632,23 +668,24 @@ function MoviePage() {
         <div>
           <div className={styles.movie_container}>
             <div className={styles.movie_box} ref={movie_box_ref}>
-              {data
+              {data && data_movie
                 ? data.movies
                     .filter((movie) => {
-                      // Kiểm tra thể loại trùng và tên phim không trùng với data_movie
                       return (
-                        movie.category.some(
-                          (cat) =>
-                            data_movie && data_movie.category.includes(cat)
-                        ) && movie.name !== data_movie.name
+                        movie.movie.category.some((cat) =>
+                          data_movie.movie.category.some(
+                            (subCat) => subCat.name === cat.name
+                          )
+                        ) && movie.movie.name !== data_movie.movie.name
                       );
                     })
                     .map((movie, idx) => (
                       <Movie
-                        id={movie._id}
-                        key={idx}
-                        name={movie.name}
-                        img_src={movie.banner}
+                        key={movie.movie._id}
+                        name={movie.movie.name}
+                        img_src={movie.movie.poster_url}
+                        quality={movie.movie.quality}
+                        slug={movie.movie.slug}
                       />
                     ))
                 : ""}

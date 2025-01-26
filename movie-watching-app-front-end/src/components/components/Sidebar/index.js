@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import "@mdi/font/css/materialdesignicons.min.css";
+import { Link } from "react-router-dom";
 function Sidebar(data) {
   return (
     <div className={styles.sidebar}>
@@ -12,15 +13,17 @@ function Sidebar(data) {
           })`,
         }}
       >
-        <div
-          className={styles.sidebar_content}
-        >
-          <h1 className={styles.name}>land and sea</h1>
+        <div className={styles.sidebar_content}>
+          <h1 className={styles.name}>{data.name || "land and sea"}</h1>
           <div className={styles.box}>
-            <h3 className={styles.genre}>romantic movie</h3>
-            <h3 className={styles.duration}>1hr 45 minutes</h3>
+            <h3 className={styles.genre}>
+              {data.category.map((item) => item.name).join(" - ") || "Romantic"}
+            </h3>
+            <h3 className={styles.duration}>{data.time || "1hr 45 minutes"}</h3>
           </div>
-          <button className={styles.sidebar_button}>watch now</button>
+          <Link to={`/movie-page/${data.slug}`}>
+            <button className={styles.sidebar_button}>watch now</button>
+          </Link>
         </div>
       </div>
     </div>

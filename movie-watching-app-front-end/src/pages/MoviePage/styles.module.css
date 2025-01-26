@@ -2,7 +2,7 @@
   display: none !important;
 }
 .main > * {
-  width: 1200px;
+  width: 100%;
   padding: 50px 15px 0;
   margin: 0 auto;
   position: relative;
@@ -280,8 +280,11 @@ video::-webkit-media-controls-panel {
 }
 .content_box .direction,
 .content_box .starring {
-  width: 100px;
+  width: fit-content;
   margin-right: 10px;
+}
+.content_box .nav .share {
+  width: fit-content;
 }
 .content_box .direc p {
   /* display: flex; */
@@ -301,59 +304,60 @@ video::-webkit-media-controls-panel {
   border-bottom: 1px solid rgb(221, 221, 221);
   border-top: 1px solid rgb(221, 221, 221);
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
-.content_box .nav > div {
-  display: flex;
-  align-items: center;
-}
-.content_box .nav > div .iconBox {
-  display: flex;
-  gap: 10px;
-}
-.content_box .nav > div button {
-  width: 35px;
-  height: 35px;
+.content_box .nav > div:last-child {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  border: none;
+}
+.content_box .nav > div .iconBox {
+  display: inline-block;
+}
+
+.content_box .nav > div button {
+  padding: 0;
+  background: none;
+}
+.content_box .nav > div button:hover {
+  background: none;
 }
 .content_box .nav > div button i {
-  font-size: 20px;
-  color: white;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 100%;
+  margin-left: 8px;
 }
-.content_box .nav > div:first-child button:first-child {
+.content_box .nav > div button:not(:last-child) {
+  /* margin-right: 10px; */
+}
+.content_box .nav > div:first-child button:first-child i {
   background-color: rgb(59, 89, 152);
   border: 1px solid rgb(59, 89, 152);
 }
-.content_box .nav > div:first-child button:nth-child(2) {
+.content_box .nav > div:first-child button:nth-child(2) i {
   background-color: rgb(228, 64, 95);
   border: 1px solid rgb(228, 64, 95);
 }
-.content_box .nav > div:first-child button:nth-child(3) {
+.content_box .nav > div:first-child button:nth-child(3) i {
   background-color: rgb(10, 102, 194);
   border: 1px solid rgb(10, 102, 194);
 }
-.content_box .nav > div:first-child button:hover {
+.content_box .nav > div:first-child button:hover i {
   background-color: rgba(0, 0, 0, 0);
 }
-.content_box .nav > div:first-child {
-  flex-basis: 50%;
-}
-.content_box .nav > div:first-child .highlight {
-  flex-basis: 15%;
-}
-.content_box .nav > div:last-child {
-  flex-basis: 50%;
-  justify-content: flex-end;
-  gap: 10px;
+.content_box .nav > div:last-child button {
+  margin-right: 0;
 }
 .content_box .nav > div:last-child button {
   background-color: rgba(0, 0, 0, 0);
 }
 .content_box .nav > div:last-child button i {
-  font-size: 35px;
+  font-size: 20px;
 }
 .content_box .nav > div:last-child button:hover i {
   color: rgb(244, 24, 28);
@@ -370,6 +374,43 @@ video::-webkit-media-controls-panel {
 }
 .movie_box > * {
   display: inline-block;
-  width: calc(25% - 29px);
+  width: var(--width_movie);
   margin-right: 40px;
+}
+.content_box .direc p {
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+}
+.content_box .direc span {
+  font-size: 18px;
+  font-weight: 600;
+}
+.content_box > p {
+  font-size: 14px;
+}
+@media (min-width: 640px) {
+  .main > * {
+    max-width: 640px;
+  }
+  .content_box .nav > div button i {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+  }
+}
+@media (min-width: 768px) {
+  .main > * {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .main > * {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1200px) {
+  .main > * {
+    max-width: 1200px;
+  }
 }

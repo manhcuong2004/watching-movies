@@ -34,7 +34,14 @@ function MoviePage() {
       }
     }
   }, [data, slug]);
-
+  const updateParams = () => {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const quantity = rootStyles.getPropertyValue("--quantity").trim();
+    const margin = rootStyles.getPropertyValue("--margin").trim();
+    const width = rootStyles.getPropertyValue("--width").trim();
+    const next = rootStyles.getPropertyValue("--next").trim();
+    return { quantity, margin, width, next };
+  };
   useEffect(() => {
     if (!movie_box_ref.current) return;
 
@@ -44,6 +51,7 @@ function MoviePage() {
     movie_box.style.transition = "transform 0.5s ease-in-out";
 
     const interval = setInterval(() => {
+      const { width, next } = updateParams();
       const numberOfMovies = movie_box.children.length;
       if (numberOfMovies === 0) return;
 
@@ -51,11 +59,19 @@ function MoviePage() {
         count = 0;
       }
 
-      movie_box.style.transform = `translateX(calc(${count} * (-25% - 11px)))`;
+      movie_box.style.transform = `translateX(calc(${count} * (-${width} - ${next})))`;
       count++;
     }, 3000);
+    const handelResize = () => {
+      count = 0;
+      movie_box.style.transform = `translateX(0)`;
 
-    return () => clearInterval(interval);
+    };
+    window.addEventListener("resize", handelResize);
+    return () => {
+      window.removeEventListener("resize", handelResize);
+      clearInterval(interval);
+    };
   }, []);
 
   const videoRef = useRef();
@@ -445,7 +461,13 @@ function MoviePage() {
         )}
       </div>
       <div className={styles.main}>
-        <div id="video" className={clsx(isFullscreen ? styles.fullScreen : "")}>
+        <div
+          id="video"
+          className={clsx(
+            isFullscreen ? styles.fullScreen : "",
+            styles.video_box
+          )}
+        >
           <div
             className={clsx(
               styles.play_control,
@@ -642,7 +664,9 @@ function MoviePage() {
 
           <div className={styles.nav}>
             <div>
-              <span className={styles.highlight}>Share : </span>
+              <span className={clsx(styles.highlight, styles.share)}>
+                Share :{" "}
+              </span>
               <div className={styles.iconBox}>
                 <button>
                   <i className="zmdi zmdi-facebook"></i>
@@ -665,7 +689,7 @@ function MoviePage() {
             </div>
           </div>
         </div>
-        <div>
+        <div className={styles.movies_box}>
           <div className={styles.movie_container}>
             <div className={styles.movie_box} ref={movie_box_ref}>
               {data && data_movie

@@ -1,0 +1,248 @@
+.container > div {
+  padding: 50px 0;
+}
+.container > div > div {
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
+}
+.first {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.first .box {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.first .box .imgBox {
+  order: 1;
+  text-align: center;
+}
+.first .box .imgBox img {
+  display: inline-block;
+  max-width: 100%;
+}
+.first .box .content {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 2;
+  order: 2;
+}
+.first .box .content h2 {
+  font-weight: inherit;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+.first .box .content p:last-child {
+  margin-top: 2rem;
+  font-size: 14px;
+}
+.first .box.about {
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr;
+  line-height: 2;
+  margin-top: 60px;
+}
+
+.first .box.about h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.first .box.about p {
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+.first .box.about ol {
+  list-style-type: none;
+}
+.first .box.about ol li {
+  margin-bottom: 15px;
+}
+.first .box.about ol i {
+  margin-right: 20px;
+}
+/* end first */
+.same {
+  background-color: rgb(18, 34, 45);
+}
+
+.same .content {
+  text-align: center;
+  color: white;
+  margin-bottom: 80px;
+}
+.same .content h2 {
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  font-weight: 400;
+  font-size: 28px;
+  position: relative;
+}
+.same .content h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  height: 10px;
+  background-image: url(https://streamo.vuejstemplate.com/images/icon/title-bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.same .content p {
+  line-height: 2;
+  font-size: 16px;
+  margin: 0 auto;
+  width: 91.666667%;
+}
+
+.second .imgBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.second .imgBox span {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-image: linear-gradient(to top, rgb(2, 89, 174), rgb(18, 180, 242));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.second .imgBox i {
+  font-size: 40px;
+  color: white;
+}
+.second .imgBox img {
+  max-width: 100%;
+}
+/* end second */
+.third {
+  color: white;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.third h3 {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.third p {
+  font-size: 16px;
+  line-height: 2;
+}
+.third img {
+  width: 64px;
+  height: 66px;
+  margin-bottom: 20px;
+}
+/* end third */
+.four .box {
+  text-align: center;
+}
+.four .content {
+  margin-top: 24px;
+}
+.four .content h4 {
+  font-size: 22px;
+}
+.four .content p {
+  font-size: 20px;
+}
+.four .person {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem
+}
+@media (min-width: 640px) {
+  .container > div > div {
+    max-width: 640px;
+  }
+  .same .content p {
+    width: 83.333333%;
+  }
+  .four .person {
+    grid-template-columns: 1fr 1fr 
+  }
+}
+@media (min-width: 768px) {
+  .container > div {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .container > div > div {
+    max-width: 768px;
+  }
+  .first .box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .first .box .imgBox {
+    order: 2;
+    display: flex;
+    align-items: center;
+  }
+  .first .box .content {
+    order: 1;
+  }
+  .first .box .content h2 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  .first .box .content p {
+    font-size: 16px;
+  }
+  .first .box.about {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .first .box.about h3 {
+    margin-bottom: 30px;
+  }
+  .same .content p {
+    width: 75%;
+  }
+  .same .content h2 {
+    font-size: 30px;
+  }
+  .third {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  .four .person {
+    grid-template-columns: 1fr 1fr 1fr 
+  }
+}
+@media (min-width: 1024px) {
+  .container > div > div {
+    max-width: 1024px;
+  }
+  .same .content p {
+    width: 50%;
+  }
+  .same .content h2 {
+    font-size: 36px;
+  }
+  .four .person {
+    grid-template-columns: 1fr 1fr 1fr 1fr
+  }
+}
+@media (min-width: 1200px) {
+  .container > div > div {
+    max-width: 1200px;
+  }
+}

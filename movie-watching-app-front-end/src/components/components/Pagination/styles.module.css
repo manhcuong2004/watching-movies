@@ -1,0 +1,24 @@
+.pageNav{
+    margin-top: 32px;
+    color: white;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.pageNav > *{
+    padding: 6px 12px; 
+    border-radius: 50%;
+    background-color: rgb(66, 49, 49);
+    color: white;
+    text-decoration: none;
+}
+.pageNav > *.active,
+.pageNav > *:hover{
+    background-color: rgb(244, 24, 28);
+}
+/* .pageNav i.hidden{
+    display: none;
+} */
+.hidden{
+    display: none !important;
+}

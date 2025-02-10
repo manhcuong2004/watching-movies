@@ -1,0 +1,35 @@
+.container {
+  overflow: hidden;
+}
+.container img {
+  transition: transform 0.5s ease;
+  max-width: 100%;
+width: 100%;
+}
+.container:hover img {
+  transform: scale(1.2);
+  transition: transform 0.5s ease;
+}
+@media (max-width: 768px) {
+  .container {
+    height: 380px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    height: 450px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    height: 500px;
+  }
+
+}
+@media (min-width: 1200px) {
+  .container {
+    height: 605px;
+  }
+
+}
+

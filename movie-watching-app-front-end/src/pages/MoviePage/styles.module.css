@@ -1,0 +1,451 @@
+.hidden {
+  display: none !important;
+}
+.main > * {
+  width: 100%;
+  padding: 50px 15px 0;
+  margin: 0 auto;
+  position: relative;
+}
+.main > div.fullScreen:first-child {
+  padding: 0;
+}
+.main .videoWrapper video {
+  width: 100%;
+  opacity: 0;
+}
+.main .videoWrapper .background_img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  width: calc(100% - 30px);
+  height: calc(100% - 50px);
+  position: absolute;
+  top: 50px;
+}
+.main .videoWrapper .background_img.focus {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.main .videoWrapper button {
+  border-radius: 50%;
+  background-color: rgb(0, 179, 255);
+  border: none;
+  position: absolute;
+  top: 45%;
+  right: 48%;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.main .videoWrapper button.focus {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.main .videoWrapper button i {
+  color: white;
+  font-size: 30px;
+}
+.main .play_control.fullScreen {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+.main .videoWrapper.fullScreen .background_img {
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+.main .play_control {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 15px;
+  z-index: 3;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+.main .play_control.isPlaying {
+  position: absolute;
+  bottom: -5%;
+  opacity: 0;
+}
+.main .play_control {
+  display: flex;
+  color: white;
+}
+.main .play_control > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main .play_control > button {
+  width: auto;
+}
+.main .play_control button {
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+.main .play_control button:hover {
+  background-color: rgb(0, 179, 255);
+  transition: background-color 0.3s ease;
+}
+.main .play_control .volume_box {
+  width: auto;
+}
+.main .play_control .progress {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.main .play_control .progress span {
+  position: absolute;
+  top: -10px;
+  left: 0;
+}
+input[type="range"] {
+  width: 100%;
+  position: relative;
+}
+input[type="range"]::before {
+  content: "";
+  position: absolute;
+  height: 8px;
+  width: 100%;
+  background-color: rgb(0, 179, 255);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  z-index: -1;
+}
+.progress input[type="range"]::before {
+  width: var(--value, 0%);
+}
+.volume_box input[type="range"]::before {
+  width: var(--value_volume, 50%);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 6px;
+  height: 12px;
+  background-color: white;
+  z-index: 1;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  width: 100%;
+  background-color: #cccccc58;
+  border-radius: 10px;
+  z-index: 1;
+}
+.main .play_control button {
+  width: 31.95px;
+  height: 31.95px;
+  padding: 7px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main .play_control .time > * {
+  margin: 0 2.5px;
+}
+.setting_box {
+  position: relative;
+}
+.setting_box::after {
+  content: "";
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+  border-width: 4px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+.setting_box.hidden_after::after {
+  display: none;
+}
+.setting_box .menu_container {
+  background-color: white;
+  position: absolute;
+  top: -146%;
+  right: 3px;
+  max-height: 82px;
+  overflow-y: hidden;
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.setting_box .menu_container .menu_box button {
+  padding: 12px 18px;
+  color: black;
+  height: fit-content;
+  font-size: 16px;
+  outline: none;
+  width: fit-content;
+}
+.setting_box .menu_container .menu_box button > * {
+  margin-right: 10px;
+}
+.setting_box .menu_container .menu_box button:hover {
+  border-radius: 0;
+  color: white;
+}
+.setting_box .menu_container .menu_box.focus button {
+  border-bottom: 1px solid #ccc;
+}
+.setting_box .menu_container .menu_box button span:first-child {
+  display: none;
+}
+.setting_box .menu_container .menu_box.focus button span:first-child {
+  display: block;
+}
+.setting_box .menu_container .menu_box.focus button span:nth-child(3),
+.setting_box .menu_container .menu_box.focus button span:nth-child(4) {
+  display: none;
+}
+.setting_box .menu_container .menu_box .plr_setting {
+  color: black;
+  display: none;
+  align-items: center;
+  padding: 10px 7px 10px 10px;
+  position: relative;
+}
+.setting_box .menu_container .menu_box .plr_setting::before {
+  content: "";
+  display: block;
+  flex-shrink: 0;
+  height: 16px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  width: 16px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.setting_box .menu_container .menu_box .plr_setting::after {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  border: 0;
+  height: 10px;
+  left: 13.3px;
+  opacity: 0;
+  top: 37%;
+  width: 9px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.setting_box .menu_container .menu_box .plr_setting.checked::before {
+  background-color: rgb(0, 179, 255);
+  transition: all 0.3s ease;
+}
+.setting_box .menu_container .menu_box .plr_setting.checked::after {
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+.setting_box .menu_container .menu_box .plr_setting:hover {
+  background-color: rgb(0, 179, 255);
+  border-radius: 0;
+  color: white;
+}
+.setting_box .menu_container .menu_box.focus .plr_setting {
+  display: flex;
+}
+
+video::-webkit-media-controls-panel {
+  display: none;
+}
+.content_box {
+  color: white;
+  padding-top: 0;
+}
+.content_box .highlight {
+  color: rgb(244, 24, 28);
+  font-size: 18px;
+  font-weight: bold;
+}
+.content_box .direction,
+.content_box .starring {
+  width: fit-content;
+  margin-right: 10px;
+}
+.content_box .nav .share {
+  width: fit-content;
+}
+.content_box .direc p {
+  /* display: flex; */
+  font-size: 16px;
+}
+.content_box .direc {
+  margin: 20px 0;
+}
+.content_box > * {
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 2;
+}
+.content_box .nav {
+  margin: 36px 0 0;
+  padding: 12px 0;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  border-top: 1px solid rgb(221, 221, 221);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.content_box .nav > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content_box .nav > div .iconBox {
+  display: inline-block;
+}
+
+.content_box .nav > div button {
+  padding: 0;
+  background: none;
+}
+.content_box .nav > div button:hover {
+  background: none;
+}
+.content_box .nav > div button i {
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 100%;
+  margin-left: 8px;
+}
+.content_box .nav > div button:not(:last-child) {
+  /* margin-right: 10px; */
+}
+.content_box .nav > div:first-child button:first-child i {
+  background-color: rgb(59, 89, 152);
+  border: 1px solid rgb(59, 89, 152);
+}
+.content_box .nav > div:first-child button:nth-child(2) i {
+  background-color: rgb(228, 64, 95);
+  border: 1px solid rgb(228, 64, 95);
+}
+.content_box .nav > div:first-child button:nth-child(3) i {
+  background-color: rgb(10, 102, 194);
+  border: 1px solid rgb(10, 102, 194);
+}
+.content_box .nav > div:first-child button:hover i {
+  background-color: rgba(0, 0, 0, 0);
+}
+.content_box .nav > div:last-child button {
+  margin-right: 0;
+}
+.content_box .nav > div:last-child button {
+  background-color: rgba(0, 0, 0, 0);
+}
+.content_box .nav > div:last-child button i {
+  font-size: 20px;
+}
+.content_box .nav > div:last-child button:hover i {
+  color: rgb(244, 24, 28);
+}
+.content_box .nav > div:last-child button.active i {
+  color: rgb(244, 24, 28);
+}
+
+.movie_container {
+  overflow: hidden;
+}
+.movie_box {
+  white-space: nowrap;
+}
+.movie_box > * {
+  display: inline-block;
+  width: var(--width_movie);
+  margin-right: 40px;
+}
+.content_box .direc p {
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+}
+.content_box .direc span {
+  font-size: 18px;
+  font-weight: 600;
+}
+.content_box > p {
+  font-size: 14px;
+}
+.epsiode_box {
+  width: 100%;
+}
+.container_epsiode {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  margin-bottom: 18px;
+}
+.epsiode_box h1 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.epsiode_box .epsiode_all {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px ;
+}
+.epsiode_box .epsiode_all a{
+  text-decoration: none;
+  color: white;
+}
+.epsiode_box .epsiode_all .epsiode {
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(18, 34, 45);
+  font-size: 13px;
+}
+.epsiode_box .epsiode_all .epsiode:hover {
+  background-color: white;
+  color: #000;
+}
+
+@media (min-width: 640px) {
+  .main > * {
+    max-width: 640px;
+  }
+  .content_box .nav > div button i {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+  }
+
+}
+@media (min-width: 768px) {
+  .main > * {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .main > * {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1200px) {
+  .main > * {
+    max-width: 1200px;
+  }
+}

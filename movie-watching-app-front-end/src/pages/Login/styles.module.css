@@ -1,0 +1,95 @@
+.nav_box > * {
+  background-color: rgb(30, 39, 45);
+}
+.form_box {
+  width: 1200px;
+  padding: 80px 15px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.form_box .heading {
+  margin-bottom: 60px;
+}
+.form_box .heading a {
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+}
+.form_box .heading a:first-child {
+  padding-right: 20px;
+  margin-right: 20px;
+  border-right: 1px solid #858383;
+}
+.form_box .heading a.active {
+  color: rgb(244, 24, 28);
+}
+.form_box .form {
+  padding: 60px;
+  border: 1px solid rgb(51, 51, 51);
+  width: 58.333333%;
+}
+.form_box .form form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.form_box .form .form_group.full {
+  grid-column: 1/3;
+}
+.form_box .form .form_group input:not([type="submit"]):not([type="checkbox"]) {
+  padding: 12px 8px;
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: rgb(30, 39, 45);
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.form_box
+  .form
+  .form_group
+  input:not([type="submit"]):not([type="checkbox"])::placeholder {
+  color: #ccc;
+}
+.form_box .form .form_group label {
+  color: white;
+}
+.form_box .form .form_group a {
+  color: rgb(244, 24, 28);
+  text-decoration: none;
+}
+.form_box .form .form_group label,
+.form_box .form .form_group a {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.form_box .form .form_group:nth-child(3) {
+  text-align: left;
+  display: flex;
+  gap: 10px;
+}
+.form_box .form .form_group:nth-child(4) {
+  display: flex;
+  justify-content: right;
+}
+.form_box .form .form_group:last-child {
+  margin-top: 20px;
+  text-align: left;
+}
+.form_box .form .form_group:last-child input {
+  padding: 8px 30px;
+  background-color: rgb(244, 24, 28);
+  color: white;
+  border: none;
+}
+
+.form_box .form .form_group:last-child input:hover {
+  background-color: white;
+  color: rgb(244, 24, 28);
+}

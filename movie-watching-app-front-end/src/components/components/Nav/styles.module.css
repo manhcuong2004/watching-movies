@@ -1,0 +1,33 @@
+.container {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0;
+  background-color: rgb(18, 34, 45);
+  text-transform: capitalize;
+}
+.container .box {
+  display: flex;
+  align-items: center;
+  color: #ddd;
+}
+.container .box .home {
+  padding-right: 8px;
+  margin-right: 8px;
+  border-right: 1px solid #ddd;
+  color: #ddd;
+}
+.container .box .home:hover {
+  color: rgb(244 24 28);
+}
+.container .box > * {
+  text-decoration: none;
+}
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,100 @@
+:root {
+  --width_movie: calc(20% - 32px);
+}
+.slider_container {
+  position: relative;
+  overflow-x: hidden;
+}
+.slider_container .slides {
+  display: flex;
+  transition: transform ease 0.5s;
+}
+.slider_container .slides > * {
+  min-width: 100%;
+}
+.slider_container .sidebar_arrow {
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  right: -40px;
+  display: flex;
+  justify-content: space-between;
+  transition: left 0.5s ease, right 0.5s ease;
+}
+.slider_container .sidebar_arrow button {
+  background: none;
+  border: none;
+  padding: 16px 24px;
+}
+.slider_container:hover .sidebar_arrow {
+  left: 5px;
+  right: 5px;
+  transition: left 0.5s ease, right 0.5s ease;
+}
+.slider_container .sidebar_arrow i {
+  font-size: 50px;
+  color: rgb(244, 24, 28);
+}
+.slider_container .sidebar_arrow button:active i {
+  color: white;
+}
+.container {
+  padding: 50px 40px 0;
+  position: relative;
+}
+.swiper_container {
+  overflow-x: hidden;
+}
+.box {
+  white-space: nowrap;
+  transition: transform ease 0.5s;
+}
+.box > * {
+  display: inline-block;
+  margin-right: 40px;
+  width: var(--width_movie);
+  /* width: calc(20% - 32px); */
+}
+
+.container .title_arrow_box {
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  color: white;
+  display: flex;
+  gap: 8px;
+}
+.container .title_arrow_box button {
+  border: none;
+  background: none;
+}
+.container .title_arrow_box button {
+  font-size: 20px;
+  padding: 4px 12px;
+  color: white;
+  background-color: rgb(51, 51, 51);
+  border-radius: 5px;
+  transition: background-color 0.5s ease;
+}
+.container .title_arrow_box button:hover {
+  background-color: rgb(244, 24, 28);
+  transition: background-color 0.5s ease;
+}
+@media (min-width: 1500px) {
+  .container {
+    padding: 50px 100px 0;
+  }
+  .container .title_arrow_box {
+    right: 100px;
+  }
+ 
+}
+@media (max-width: 1300px) {
+  
+}
+@media (max-width: 1024px) {
+  
+}
+@media (max-width: 768px) {
+  
+}

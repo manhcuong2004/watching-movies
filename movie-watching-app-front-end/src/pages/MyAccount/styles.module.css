@@ -1,0 +1,227 @@
+.container {
+  background-color: black;
+  color: #ffffff;
+  padding: 80px 0;
+  font-family: Arial, sans-serif;
+}
+
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  font-size: 18px;
+}
+
+.tab {
+  cursor: pointer;
+  padding-bottom: 10px;
+  color: white;
+}
+
+.activeTab {
+  border-bottom: 2px solid red;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.profileImage {
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+.profileImage img {
+  height: 200px;
+}
+
+.imageText {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  color: #ddd;
+}
+
+.detailsSection {
+  flex: 3;
+}
+
+.sectionTitle {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.sectionDescription {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  flex: 1;
+}
+
+.MainContainer label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: white;
+}
+
+.MainContainer input {
+  width: 100%;
+  height: 70%;
+  padding: 10px;
+  background-color: rgb(18 34 45);
+  border: 1px solid rgb(18 34 45);
+  border-radius: 5px;
+  color: #fff;
+}
+
+.MainContainer input::placeholder {
+  color: #dfdfdf;
+}
+
+.saveButton {
+  background-color: red;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.saveButton:hover {
+  background-color: #ff0000bc;
+}
+.MainContainer {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+  width: 100%;
+}
+.general h2,
+.password_change h2 {
+  margin-bottom: 8px;
+  font-weight: 400;
+  font-size: 24px;
+}
+.general > p:first-child {
+  margin-bottom: 16px;
+}
+.general .input_box,
+.password_change .input_box {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+.general .input_box label,
+.password_change .input_box label {
+  margin-bottom: 3px;
+  font-size: 15px;
+}
+.general .input_box input,
+.password_change .input_box input {
+  margin-bottom: 12px;
+  padding: 6px 10px;
+}
+.form > div:not(:last-child) {
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgb(68, 68, 68);
+}
+.form > div:last-child {
+  margin-top: 20px;
+}
+.form > div:last-child button {
+  padding: 6px 12px;
+  background-color: rgb(244, 24, 28);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 1.5;
+}
+.form > div:last-child button:hover {
+  color: rgb(244, 24, 28);
+  background-color: white;
+}
+.general .input_box input,
+.password_change .input_box input {
+  color: rgb(204 204 204);
+}
+@media (min-width: 640px) {
+  .MainContainer {
+    max-width: 640px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 0 auto;
+  }
+  .general .input_box,
+  .password_change .input_box {
+    grid-template-columns: 1fr 1fr;
+  }
+  .general .input_box .inputGroup,
+  .password_change .input_box .inputGroup {
+    /* grid-column: 1/2; */
+  }
+  .profileImage img {
+    height: 300px;
+  }
+}
+@media (min-width: 768px) {
+  .MainContainer {
+    max-width: 768px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 0 auto;
+  }
+  .formContainer {
+    flex-direction: row;
+    gap: 30px;
+  }
+  .profileImage {
+    width: 25%;
+    display: inline-block;
+  }
+  .profileImage img {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (min-width: 1024px) {
+  .MainContainer {
+    max-width: 1024px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 0 auto;
+  }
+  .password_change .input_box {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (min-width: 1200px) {
+  .MainContainer {
+    max-width: 1200px;
+  }
+  .profileImage {
+    width: 16.6666%;
+  }
+}

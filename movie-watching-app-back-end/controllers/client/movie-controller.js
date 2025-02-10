@@ -1,12 +1,10 @@
 const Movie = require('../../models/movie-model');
-const Category = require('../../models/category-model');
 
 module.exports.movie = async (req, res) => {
     try {
-        const movies = await Movie.find();
-        const category = await Category.find();
+        const movies = await Movie.find().limit(100);
 
-        res.json({ movies, category });
+        res.json({ movies });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

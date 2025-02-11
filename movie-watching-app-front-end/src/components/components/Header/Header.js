@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
+import { fetchMultipleApis } from '../../../services/allService';
 import { useEffect, useState, useRef } from "react";
 import clsx from "clsx";
 function Header() {
@@ -7,13 +8,33 @@ function Header() {
   const [category, setCategory] = useState();
   const [series, setSeries] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/api/home")
-      .then((reponse) => reponse.json())
-      .then((data) => {
-        setData(data);
-        // console.log(data.movies);
-      });
+    const getData = async () => {
+      try {
+        const result = await fetchMultipleApis();
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    getData();
   }, []);
+  useEffect(() => {
+    if (data) {
+      const categories = data[0].category;
+      const filteredCategories = categories.filter((category) =>
+        data[2].movies.some((movie) =>
+          movie.movie.category.some((cat) => cat.slug === category.slug)
+        )
+      );
+      const filteredCategories_series = categories.filter((category) =>
+        data[1].tvseries.some((movie) =>
+          movie.movie.category.some((cat) => cat.slug === category.slug)
+        )
+      );
+      setSeries(filteredCategories_series);
+      setCategory(filteredCategories);
+    }
+  }, [data]);
   const [isSearch, setIsSearch] = useState();
   const [isDisplay, setIsDisplay] = useState();
   const [isNoti, setIsNoti] = useState();
@@ -50,23 +71,7 @@ function Header() {
       popUp.classList.toggle(styles.hidden);
     }
   };
-  useEffect(() => {
-    if (data) {
-      const categories = data.category.map((cat) => cat);
-      const filteredCategories = categories.filter((category) =>
-        data.movies.some((movie) =>
-          movie.movie.category.some((cat) => cat.slug === category.slug)
-        )
-      );
-      const filteredCategories_series = categories.filter((category) =>
-        data.tvseries.some((movie) =>
-          movie.movie.category.some((cat) => cat.slug === category.slug)
-        )
-      );
-      setSeries(filteredCategories_series);
-      setCategory(filteredCategories);
-    }
-  }, [data]);
+
   return (
     <header className={styles.header_container}>
       <div className={styles.info}>
@@ -77,27 +82,33 @@ function Header() {
           <Link to="/">Home</Link>
           <Link to="/series">
             Series
-            <div className={styles.subNav} onClick={(e) => e.stopPropagation()}>
-              {data &&
-                series &&
-                series.map((cat, index) => (
+            {series && (
+              <div
+                className={styles.subNav}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {series.map((cat, index) => (
                   <Link key={index} to={`/series/${cat.slug}`}>
                     {cat.name} Series
                   </Link>
                 ))}
-            </div>
+              </div>
+            )}
           </Link>
           <Link>
             Movies
-            <div className={styles.subNav} onClick={(e) => e.stopPropagation()}>
-              {data &&
-                category &&
-                category.map((cat, index) => (
+            {category && (
+              <div
+                className={styles.subNav}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {category.map((cat, index) => (
                   <Link key={index} to={`/movies/${cat.slug}`}>
                     {cat.name} Movies
                   </Link>
                 ))}
-            </div>
+              </div>
+            )}
           </Link>
           <Link>
             Pages

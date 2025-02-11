@@ -1,11 +1,6 @@
 import styles from "./styles.module.css";
 import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 function Movie(data) {
   const [imageError, setImageError] = useState(false);
   const handleImageError = () => {

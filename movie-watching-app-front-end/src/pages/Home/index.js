@@ -3,6 +3,7 @@ import Movie from "../../components/components/Movie";
 import Title from "../../components/components/Title";
 import styles from "./styles.module.css";
 import clsx from "clsx";
+import { fetchMultipleApis } from "../../services/allService";
 import { useState, useEffect, useRef } from "react";
 
 function Home() {
@@ -22,14 +23,19 @@ function Home() {
     const next = rootStyles.getPropertyValue("--next").trim();
     return { quantity, margin, width, next };
   };
+  const [movies, setMovies] = useState();
+  const [tvseries, setTvseries] = useState();
+  const [category, setCategory] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/movie")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => console.error("Error:", error));
+    const getData = async () => {
+      const result = await fetchMultipleApis();
+      setData(result);
+      setMovies(result[2].movies);
+      setTvseries(result[1].tvseries);
+      setCategory(result[0].category);
+    };
+    getData();
   }, []);
 
   useEffect(() => {
@@ -147,101 +153,208 @@ function Home() {
 
   return (
     <div>
-      <main>
-        <div className={styles.slider_container}>
-          <div
-            className={styles.slides}
-            ref={slidesRef}
-            onMouseDown={handleTouchStart}
-            onMouseMove={handleTouchMove}
-            onMouseUp={handleTouchEnd}
-            onMouseLeave={() => isDragging && handleTouchEnd()}
-          >
-            {data &&
-              data.movies
-                .slice(0, 4)
-                .map((movie, index) => (
-                  <Sidebar
-                    key={index}
-                    img={movie.movie.thumb_url}
-                    name={movie.movie.name}
-                    category={movie.movie.category}
-                    time={movie.movie.time}
-                    slug={movie.movie.slug}
-                  />
-                ))}
-          </div>
-          <div className={styles.sidebar_arrow}>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePrevButton();
-              }}
+      <main className={styles.main}>
+        <div className={styles.movie_container}>
+          <div className={styles.slider_container}>
+            <div
+              className={styles.slides}
+              ref={slidesRef}
+              onMouseDown={handleTouchStart}
+              onMouseMove={handleTouchMove}
+              onMouseUp={handleTouchEnd}
+              onMouseLeave={() => isDragging && handleTouchEnd()}
             >
-              <i className="zmdi zmdi-chevron-left"></i>
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleNextButton();
-              }}
-            >
-              <i className="zmdi zmdi-chevron-right"></i>
-            </button>
+              {data &&
+                movies
+                  .slice(0, 4)
+                  .map((movie, index) => (
+                    <Sidebar
+                      key={index}
+                      img={movie.movie.thumb_url}
+                      name={movie.movie.name}
+                      category={movie.movie.category}
+                      time={movie.movie.time}
+                      slug={movie.movie.slug}
+                    />
+                  ))}
+            </div>
+            <div className={styles.sidebar_arrow}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrevButton();
+                }}
+              >
+                <i className="zmdi zmdi-chevron-left"></i>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNextButton();
+                }}
+              >
+                <i className="zmdi zmdi-chevron-right"></i>
+              </button>
+            </div>
           </div>
-        </div>
-        {data &&
-          data.category.map((category, index) => {
-            const filteredMovies = data.movies.filter((movie) =>
-              movie.movie.category.some((cat) =>
-                cat.name.includes(category.name)
-              )
-            );
+          {category &&
+            category.map((category, index) => {
+              const filteredMovies = movies.filter((movie) =>
+                movie.movie.category.some((cat) =>
+                  cat.name.includes(category.name)
+                )
+              );
 
-            return (
-              filteredMovies.length > 5 && (
-                <div className={styles.container} key={index}>
-                  <Title name={category.name} />
-                  <div className={styles.title_arrow_box}>
-                    <button onClick={() => handlePrevButtonMovie(index)}>
-                      <i
-                        className={clsx(
-                          "zmdi zmdi-chevron-left",
-                          styles.arrow_icon
-                        )}
-                      ></i>
-                    </button>
-                    <button onClick={() => handleNextButtonMovie(index)}>
-                      <i
-                        className={clsx(
-                          "zmdi zmdi-chevron-right",
-                          styles.arrow_icon
-                        )}
-                      ></i>
-                    </button>
-                  </div>
-                  <div className={styles.swiper_container}>
-                    <div
-                      className={styles.box}
-                      ref={(el) => (boxRefs.current[index] = el)}
-                    >
-                      {filteredMovies.map((movie) => (
-                        <Movie
-                          id={movie._id}
-                          key={movie._id}
-                          name={movie.movie.name}
-                          img_src={movie.movie.poster_url}
-                          quality={movie.movie.quality}
-                          slug={movie.movie.slug}
-                          type={movie.movie.tmdb.type || "movie"}
-                        />
-                      ))}
+              return (
+                filteredMovies.length > 5 && (
+                  <div className={styles.container} key={index}>
+                    <Title name={category.name} />
+                    <div className={styles.title_arrow_box}>
+                      <button
+                      // onClick={() => handlePrevButtonMovie(index)}
+                      >
+                        <i
+                          className={clsx(
+                            "zmdi zmdi-chevron-left",
+                            styles.arrow_icon
+                          )}
+                        ></i>
+                      </button>
+                      <button
+                      // onClick={() => handleNextButtonMovie(index)}
+                      >
+                        <i
+                          className={clsx(
+                            "zmdi zmdi-chevron-right",
+                            styles.arrow_icon
+                          )}
+                        ></i>
+                      </button>
+                    </div>
+                    <div className={styles.swiper_container}>
+                      <div
+                        className={styles.box}
+                        ref={(el) => (boxRefs.current[index] = el)}
+                      >
+                        {filteredMovies.map((movie) => (
+                          <Movie
+                            id={movie._id}
+                            key={movie._id}
+                            name={movie.movie.name}
+                            img_src={movie.movie.poster_url}
+                            quality={movie.movie.quality}
+                            slug={movie.movie.slug}
+                            type={movie.movie.tmdb.type || "movie"}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            );
-          })}
+                )
+              );
+            })}
+        </div>
+        <div className={styles.series_container}>
+          <div className={styles.slider_container}>
+            <div
+              className={styles.slides}
+              ref={slidesRef}
+              onMouseDown={handleTouchStart}
+              onMouseMove={handleTouchMove}
+              onMouseUp={handleTouchEnd}
+              onMouseLeave={() => isDragging && handleTouchEnd()}
+            >
+              {tvseries &&
+                tvseries
+                  .slice(0, 4)
+                  .map((movie, index) => (
+                    <Sidebar
+                      key={index}
+                      img={movie.movie.thumb_url}
+                      name={movie.movie.name}
+                      category={movie.movie.category}
+                      time={movie.movie.time}
+                      slug={movie.movie.slug}
+                    />
+                  ))}
+            </div>
+            <div className={styles.sidebar_arrow}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrevButton();
+                }}
+              >
+                <i className="zmdi zmdi-chevron-left"></i>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNextButton();
+                }}
+              >
+                <i className="zmdi zmdi-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          {category &&
+            tvseries &&
+            category.map((category, index) => {
+              const filteredMovies = tvseries.filter((movie) =>
+                movie.movie.category.some((cat) =>
+                  cat.name.includes(category.name)
+                )
+              );
+
+              return (
+                filteredMovies.length > 5 && (
+                  <div className={styles.container} key={index}>
+                    <Title name={category.name} />
+                    <div className={styles.title_arrow_box}>
+                      <button
+                      // onClick={() => handlePrevButtonMovie(index)}
+                      >
+                        <i
+                          className={clsx(
+                            "zmdi zmdi-chevron-left",
+                            styles.arrow_icon
+                          )}
+                        ></i>
+                      </button>
+                      <button
+                      // onClick={() => handleNextButtonMovie(index)}
+                      >
+                        <i
+                          className={clsx(
+                            "zmdi zmdi-chevron-right",
+                            styles.arrow_icon
+                          )}
+                        ></i>
+                      </button>
+                    </div>
+                    <div className={styles.swiper_container}>
+                      <div
+                        className={styles.box}
+                        ref={(el) => (boxRefs.current[index] = el)}
+                      >
+                        {filteredMovies.map((movie) => (
+                          <Movie
+                            id={movie._id}
+                            key={movie._id}
+                            name={movie.movie.name}
+                            img_src={movie.movie.poster_url}
+                            quality={movie.movie.quality}
+                            slug={movie.movie.slug}
+                            type={movie.movie.tmdb.type || "movie"}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              );
+            })}
+        </div>
       </main>
     </div>
   );

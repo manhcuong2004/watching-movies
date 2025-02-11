@@ -38,14 +38,43 @@ function Layout() {
     </>
   );
 }
-const privateRoutes = [
+const publicRoutes = [
   {
     path: "/",
+    layout: null,
+    element: LandingPage,
+  },
+  {
+    path: "/login",
+    layout: null,
+    element: Login,
+  },
+  {
+    path: "/register",
+    layout: null,
+    element: Register,
+  },
+];
+const privateRoutes = [
+  {
+    path: "/home",
     layout: DefaultLayout,
     element: Home,
   },
   {
-    path: "/:category",
+    path: "/tv/:slug",
+    layout: DefaultLayout,
+    element: MoviePage,
+    children: [{ path: ":currentEpsiode", element: MoviePage }],
+  },
+  {
+    path: "/movie/:slug",
+    layout: DefaultLayout,
+    element: MoviePage,
+    children: [{ path: ":currentEpsiode", element: MoviePage }],
+  },
+  {
+    path: "/series",
     layout: DefaultLayout,
     element: Category,
     children: [
@@ -61,6 +90,48 @@ const privateRoutes = [
       },
     ],
   },
+  {
+    path: "/movies",
+    layout: DefaultLayout,
+    element: Category,
+    children: [
+      {
+        path: ":categoryName",
+        element: Movies,
+        children: [
+          {
+            path: ":pageNumber",
+            element: Movies,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/about-us",
+    layout: DefaultLayout,
+    element: AboutUs,
+  },
+  {
+    path: "/pricing",
+    layout: DefaultLayout,
+    element: Pricing,
+  },
+  {
+    path: "/faq",
+    layout: DefaultLayout,
+    element: FAQ,
+  },
+  {
+    path: "/my-profile",
+    layout: DefaultLayout,
+    element: MyProfile,
+  },
+  {
+    path: "/contact",
+    layout: DefaultLayout,
+    element: Contact,
+  },
 ];
 
-export { privateRoutes };
+export { privateRoutes, publicRoutes };

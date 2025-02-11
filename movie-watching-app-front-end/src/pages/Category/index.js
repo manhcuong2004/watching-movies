@@ -9,10 +9,13 @@ import {
   fetchApiMovies,
 } from "../../services/allService";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 function Category() {
-  const { category } = useParams();
-  const [data, setData] = useState(null);
+  const location = useLocation();
+  const path = location.pathname;
+  const category = path.includes("movies") ? "movies" : "series";
+
   const slidesRef = useRef();
   const boxRefs = useRef([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,6 +53,8 @@ function Category() {
     }
   }, []);
   useEffect(() => {
+    setMovies();
+    setTvseries();
     getData(category);
   }, [category]);
 
@@ -70,8 +75,10 @@ function Category() {
 
   const handleNextButton = () => {
     const slides = slidesRef.current;
-    const numberOfSlides = slides.children.length;
-    setCurrentIndex((prev) => (prev + 1 < numberOfSlides ? prev + 1 : 0));
+    if (slides) {
+      const numberOfSlides = slides.children.length;
+      setCurrentIndex((prev) => (prev + 1 < numberOfSlides ? prev + 1 : 0));
+    }
   };
 
   const handlePrevButton = () => {
@@ -119,14 +126,13 @@ function Category() {
 
   const [currentMovies, setCurrentMovies] = useState([]);
   useEffect(() => {
-    if (data?.category?.length) {
-      setCurrentMovies(new Array(data.category.length).fill(0));
+    if (cate) {
+      setCurrentMovies(new Array(cate.length).fill(0));
     }
-  }, [data]);
+  }, [movies, cate, tvseries]);
 
   const handleNextButtonMovie = (index) => {
     const { quantity, width, next } = updateParams();
-
     const box = boxRefs.current[index];
     if (box.children.length - currentMovies[index] <= quantity) return;
     box.style.transform = `translateX(calc(${
@@ -167,7 +173,6 @@ function Category() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
   return (
     <div>
       <main className={styles.main}>
@@ -311,63 +316,57 @@ function Category() {
                 </button>
               </div>
             </div>
-            {cate &&
-              tvseries &&
-              cate.map((category, index) => {
-                const filteredMovies = tvseries.filter((movie) =>
-                  movie.movie.category.some((cat) =>
-                    cat.name.includes(category.name)
-                  )
-                );
+            {cate.map((category, index) => {
+              const filteredMovies = tvseries.filter((movie) =>
+                movie.movie.category.some((cat) =>
+                  cat.name.includes(category.name)
+                )
+              );
 
-                return (
-                  filteredMovies.length > 5 && (
-                    <div className={styles.container} key={index}>
-                      <Title name={category.name} />
-                      <div className={styles.title_arrow_box}>
-                        <button
-                        // onClick={() => handlePrevButtonMovie(index)}
-                        >
-                          <i
-                            className={clsx(
-                              "zmdi zmdi-chevron-left",
-                              styles.arrow_icon
-                            )}
-                          ></i>
-                        </button>
-                        <button
-                        // onClick={() => handleNextButtonMovie(index)}
-                        >
-                          <i
-                            className={clsx(
-                              "zmdi zmdi-chevron-right",
-                              styles.arrow_icon
-                            )}
-                          ></i>
-                        </button>
-                      </div>
-                      <div className={styles.swiper_container}>
-                        <div
-                          className={styles.box}
-                          ref={(el) => (boxRefs.current[index] = el)}
-                        >
-                          {filteredMovies.map((movie) => (
-                            <Movie
-                              id={movie._id}
-                              key={movie._id}
-                              name={movie.movie.name}
-                              img_src={movie.movie.poster_url}
-                              quality={movie.movie.quality}
-                              slug={movie.movie.slug}
-                              type={movie.movie.tmdb.type || "movie"}
-                            />
-                          ))}
-                        </div>
+              return (
+                filteredMovies.length > 5 && (
+                  <div className={styles.container} key={index}>
+                    <Title name={category.name} />
+                    <div className={styles.title_arrow_box}>
+                      <button onClick={() => handlePrevButtonMovie(index)}>
+                        <i
+                          className={clsx(
+                            "zmdi zmdi-chevron-left",
+                            styles.arrow_icon
+                          )}
+                        ></i>
+                      </button>
+                      <button onClick={() => handleNextButtonMovie(index)}>
+                        <i
+                          className={clsx(
+                            "zmdi zmdi-chevron-right",
+                            styles.arrow_icon
+                          )}
+                        ></i>
+                      </button>
+                    </div>
+                    <div className={styles.swiper_container}>
+                      <div
+                        className={styles.box}
+                        ref={(el) => (boxRefs.current[index] = el)}
+                      >
+                        {filteredMovies.map((movie) => (
+                          <Movie
+                            id={movie._id}
+                            key={movie._id}
+                            name={movie.movie.name}
+                            img_src={movie.movie.poster_url}
+                            quality={movie.movie.quality}
+                            slug={movie.movie.slug}
+                            type={movie.movie.tmdb.type || "movie"}
+                          />
+                        ))}
                       </div>
                     </div>
-                  )
-                );
-              })}
+                  </div>
+                )
+              );
+            })}
           </div>
         )}
       </main>

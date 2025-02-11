@@ -79,7 +79,7 @@ function Header() {
           <img src="/img/logo.png" alt="" />
         </div>
         <div className={styles.nav}>
-          <Link to="/">Home</Link>
+          <Link to="/home">Home</Link>
           <Link to="/series">
             Series
             {series && (
@@ -95,7 +95,7 @@ function Header() {
               </div>
             )}
           </Link>
-          <Link>
+          <Link to="/movies">
             Movies
             {category && (
               <div
@@ -208,7 +208,7 @@ function Header() {
             </button>
           </div>
           <div className={styles.nav}>
-            <Link to="/" onClick={handlePopUp}>
+            <Link to="/home" onClick={handlePopUp}>
               Home
             </Link>
             <Link className={clsx(styles.more, "check")}>
@@ -232,7 +232,7 @@ function Header() {
             </Link>
             <Link className={clsx(styles.more, "check")}>
               <div className={styles.content}>
-                <Link>Movies</Link>
+                <Link to="/movies">Movies</Link>
                 <span onClick={handleClick}>
                   <i className="zmdi zmdi-chevron-down"></i>
                 </span>

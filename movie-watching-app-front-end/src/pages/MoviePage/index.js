@@ -1,26 +1,52 @@
 import styles from "./styles.module.css";
 import Title_v2 from "../../components/components/Title_v2";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import Movie from "../../components/components/Movie";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import Hls from "hls.js";
+import {
+  fetchApiCategory,
+  fetchApiTvSeries,
+  fetchApiMovies,
+} from "../../services/allService";
 function MoviePage() {
+  const location = useLocation();
+  const path = location.pathname;
+  const type = path.includes("tv") ? "tv" : "movie";
+
   const [data, setData] = useState(null);
-  const { type, slug, currentEpsiode } = useParams();
+  const { slug, currentEpsiode } = useParams();
   const [data_movie, setDataMovie] = useState(null);
   const movie_box_ref = useRef();
   const [src, setSrc] = useState();
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/home")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        // console.log("Success:", data.tvseries);
-      })
-      .catch((error) => console.error("Error:", error));
+  const [movies_list, setMovies] = useState();
+  const [tvseries_list, setTvseries] = useState();
+  const [category, setCategory] = useState();
+
+  const getData = useCallback(async (type) => {
+    if (type === "tv") {
+      const [tvSeriesData, categoryData] = await Promise.all([
+        fetchApiTvSeries(),
+        fetchApiCategory(),
+      ]);
+      setTvseries(tvSeriesData);
+      setCategory(categoryData);
+    } else if (type === "movie") {
+      const [moviesData, categoryData] = await Promise.all([
+        fetchApiMovies(),
+        fetchApiCategory(),
+      ]);
+      setMovies(moviesData);
+      setCategory(categoryData);
+    }
   }, []);
+  useEffect(() => {
+    setMovies();
+    setTvseries();
+    getData(type);
+  }, [type]);
   useEffect(() => {
     if (data) {
       let movieFound;
@@ -31,6 +57,7 @@ function MoviePage() {
       }
       if (movieFound) {
         setDataMovie(movieFound);
+        console.log(movieFound);
         data_movie && setSrc(data_movie.episodes[0].server_data[0].link_embed);
       }
     }

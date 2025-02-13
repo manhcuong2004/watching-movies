@@ -1,6 +1,6 @@
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
-import { fetchMultipleApis } from '../../../services/allService';
+import { fetchMultipleApis } from "../../../services/allService";
 import { useEffect, useState, useRef } from "react";
 import clsx from "clsx";
 function Header() {
@@ -85,7 +85,7 @@ function Header() {
             {series && (
               <div
                 className={styles.subNav}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => e.nativeEvent.stopPropagation()}
               >
                 {series.map((cat, index) => (
                   <Link key={index} to={`/series/${cat.slug}`}>
@@ -100,7 +100,7 @@ function Header() {
             {category && (
               <div
                 className={styles.subNav}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => e.nativeEvent.stopPropagation()}
               >
                 {category.map((cat, index) => (
                   <Link key={index} to={`/movies/${cat.slug}`}>
@@ -220,7 +220,10 @@ function Header() {
                   <i className="zmdi zmdi-chevron-down"></i>
                 </span>
               </div>
-              <div className={styles.subNav_popup}>
+              <div
+                className={styles.subNav_popup}
+                onClick={(e) => e.nativeEvent.stopPropagation()}
+              >
                 {data &&
                   series &&
                   series.map((cat, index) => (
@@ -237,7 +240,10 @@ function Header() {
                   <i className="zmdi zmdi-chevron-down"></i>
                 </span>
               </div>
-              <div className={styles.subNav_popup}>
+              <div
+                className={styles.subNav_popup}
+                onClick={(e) => e.nativeEvent.stopPropagation()}
+              >
                 {data &&
                   category &&
                   category.map((cat, index) => (

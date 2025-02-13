@@ -62,50 +62,50 @@ const privateRoutes = [
     element: Home,
   },
   {
+    path: "/tv/:slug/:currentEpsiode",
+    layout: DefaultLayout,
+    element: MoviePage,
+  },
+  {
     path: "/tv/:slug",
     layout: DefaultLayout,
     element: MoviePage,
-    children: [{ path: ":currentEpsiode", element: MoviePage }],
+    // children: [{ path: ":currentEpsiode", element: MoviePage }],
   },
   {
     path: "/movie/:slug",
     layout: DefaultLayout,
     element: MoviePage,
-    children: [{ path: ":currentEpsiode", element: MoviePage }],
   },
   {
     path: "/series",
     layout: DefaultLayout,
     element: Category,
-    children: [
-      {
-        path: ":categoryName",
-        element: Movies,
-        children: [
-          {
-            path: ":pageNumber",
-            element: Movies,
-          },
-        ],
-      },
-    ],
+  },
+  {
+    path: "/series/:categoryName",
+    layout: DefaultLayout,
+    element: Movies,
+  },
+  {
+    path: "/series/:categoryName/:pageNumber",
+    layout: DefaultLayout,
+    element: Movies,
   },
   {
     path: "/movies",
     layout: DefaultLayout,
     element: Category,
-    children: [
-      {
-        path: ":categoryName",
-        element: Movies,
-        children: [
-          {
-            path: ":pageNumber",
-            element: Movies,
-          },
-        ],
-      },
-    ],
+  },
+  {
+    path: "/movies/:categoryName",
+    layout: DefaultLayout,
+    element: Movies,
+  },
+  {
+    path: "/movies/:categoryName/:pageNumber",
+    layout: DefaultLayout,
+    element: Movies,
   },
   {
     path: "/about-us",
@@ -131,6 +131,11 @@ const privateRoutes = [
     path: "/contact",
     layout: DefaultLayout,
     element: Contact,
+  },
+  {
+    path: "/my-account",
+    layout: DefaultLayout,
+    element: MyAccount,
   },
 ];
 

@@ -13,10 +13,12 @@ import {
 function MoviePage() {
   const location = useLocation();
   const path = location.pathname;
-  const type = path.includes("tv") ? "tv" : "movie";
 
+  const type = path.includes("tv") ? "tv" : "movie";
   const [data, setData] = useState(null);
+
   const { slug, currentEpsiode } = useParams();
+
   const [data_movie, setDataMovie] = useState(null);
   const movie_box_ref = useRef();
   const [src, setSrc] = useState();
@@ -31,37 +33,44 @@ function MoviePage() {
         fetchApiTvSeries(),
         fetchApiCategory(),
       ]);
-      setTvseries(tvSeriesData);
-      setCategory(categoryData);
+      setTvseries(tvSeriesData.tvseries);
+      setCategory(categoryData.category);
     } else if (type === "movie") {
       const [moviesData, categoryData] = await Promise.all([
         fetchApiMovies(),
         fetchApiCategory(),
       ]);
-      setMovies(moviesData);
-      setCategory(categoryData);
+      setMovies(moviesData.movies);
+      setCategory(categoryData.category);
     }
   }, []);
+
   useEffect(() => {
-    setMovies();
-    setTvseries();
-    getData(type);
-  }, [type]);
+    if (type) {
+      setMovies();
+      setTvseries();
+      setDataMovie();
+      getData(type);
+    }
+  }, [type, slug, currentEpsiode]);
+
   useEffect(() => {
-    if (data) {
-      let movieFound;
-      if (type === "movie") {
-        movieFound = data.movies.find((movie) => movie.movie.slug === slug);
-      } else {
-        movieFound = data.tvseries.find((movie) => movie.movie.slug === slug);
+    let movieFound;
+    if (type === "tv") {
+      if (tvseries_list) {
+        movieFound = tvseries_list.find((movie) => movie.movie.slug === slug);
       }
-      if (movieFound) {
-        setDataMovie(movieFound);
-        console.log(movieFound);
-        data_movie && setSrc(data_movie.episodes[0].server_data[0].link_embed);
+    } else {
+      if (movies_list) {
+        movieFound = movies_list.find((movie) => movie.movie.slug === slug);
       }
     }
-  }, [data, type, slug, currentEpsiode]);
+    if (movieFound) {
+      setDataMovie(movieFound);
+      // data_movie && setSrc(data_movie.episodes[0].server_data[0].link_embed);
+    }
+  }, [tvseries_list, movies_list]);
+
   const updateParams = () => {
     const rootStyles = getComputedStyle(document.documentElement);
     const quantity = rootStyles.getPropertyValue("--quantity").trim();
@@ -677,20 +686,18 @@ function MoviePage() {
             <div className={styles.container_epsiode}>
               <h1>Toàn bộ các tập phim</h1>
               <div className={styles.epsiode_all}>
-                {data &&
-                  data_movie &&
-                  data_movie.episodes[0].server_data.map((epsiode) => (
-                    <Link to={`/${type}/${slug}/${epsiode.slug}`}>
-                      <div className={styles.epsiode}>
-                        <div className={styles.img_box}>
-                          <img src="" alt="" />
-                        </div>
-                        <div className={styles.content}>
-                          <h3>{epsiode.name}</h3>
-                        </div>
+                {data_movie.episodes[0].server_data.map((epsiode) => (
+                  <Link to={`/${type}/${slug}/${epsiode.slug}`}>
+                    <div className={styles.epsiode}>
+                      <div className={styles.img_box}>
+                        <img src="" alt="" />
                       </div>
-                    </Link>
-                  ))}
+                      <div className={styles.content}>
+                        <h3>{epsiode.name}</h3>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -742,8 +749,13 @@ function MoviePage() {
         <div className={styles.movies_box}>
           <div className={styles.movie_container}>
             <div className={styles.movie_box} ref={movie_box_ref}>
-              {data && data_movie
-                ? data.movies
+              {(data_movie && tvseries_list) || (data_movie && movies_list)
+                ? (tvseries_list
+                    ? tvseries_list
+                    : movies_list
+                    ? movies_list
+                    : ""
+                  )
                     .filter((movie) => {
                       return (
                         movie.movie.category.some((cat) =>
@@ -753,16 +765,43 @@ function MoviePage() {
                         ) && movie.movie.name !== data_movie.movie.name
                       );
                     })
-                    .map((movie, idx) => (
-                      <Movie
-                        key={idx}
-                        name={movie.movie.name}
-                        img_src={movie.movie.poster_url}
-                        quality={movie.movie.quality}
-                        slug={movie.movie.slug}
-                        type={movie.movie.tmdb.type || "movie"}
-                      />
-                    ))
+                    .map((movie, idx) => {
+                      let result;
+                      if (tvseries_list){
+                          if (
+                            movie.movie.episode_current.includes("Hoàn Tất")
+                          ) {
+                            result =
+                              movie.episodes[0].server_data[
+                                movie.episodes[0].server_data.length - 1
+                              ].slug;
+                          } else {
+                            const filteredResult =
+                              movie.episodes[0].server_data.find(
+                                (ep) => ep.name === movie.movie.episode_current
+                              );
+                            if (filteredResult) {
+                              result = filteredResult.slug;
+                            } else {
+                              result =
+                                movie.episodes[0].server_data[
+                                  movie.episodes[0].server_data.length - 1
+                                ].slug;
+                            }
+                          }
+                      }
+                      return (
+                        <Movie
+                          key={idx}
+                          name={movie.movie.name}
+                          img_src={movie.movie.poster_url}
+                          quality={movie.movie.quality}
+                          slug={movie.movie.slug}
+                          type={movie.movie.tmdb.type || "movie"}
+                          currentEpsiode= {currentEpsiode && result}
+                        />
+                      );
+                    })
                 : ""}
             </div>
           </div>

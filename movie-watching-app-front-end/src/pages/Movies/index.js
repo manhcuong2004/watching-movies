@@ -2,37 +2,52 @@ import Sidebar from "../../components/components/Sidebar";
 import Movie from "../../components/components/Movie";
 import styles from "./styles.module.css";
 import Pagination from "../../components/components/Pagination";
-import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-
+import { useEffect, useState, useRef, useCallback } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import { fetchApiTvSeries, fetchApiMovies } from "../../services/allService";
 function Movies() {
+  const location = useLocation();
+  const path = location.pathname;
+  const category = path.includes("series") ? "series" : "movies";
   const { categoryName, pageNumber } = useParams();
   const [data, setData] = useState();
   const currentPage = pageNumber || "page_1";
   const [movies, setMovies] = useState();
   const [current, setCurrent] = useState(0);
   const slides_ref = useRef();
-  useEffect(() => {
-    fetch("http://localhost:5000/api/movie")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        console.log("Success:", data);
-        console.log("categoryName:", categoryName);
-        console.log("pageNumber:", currentPage);
-      })
-      .catch((error) => console.error("Error:", error));
+  const getData = useCallback(async (category) => {
+    if (category === "movies") {
+      const result = await fetchApiMovies();
+      setData(result.movies);
+    } else if (category === "series") {
+      const result = await fetchApiTvSeries();
+      setData(result.tvseries);
+    }
   }, []);
   useEffect(() => {
+    getData(category);
+  }, [category]);
+  useEffect(() => {
+    setMovies();
+    let filteredMovies;
     if (data) {
-      const filteredMovies = data.movies.filter((movie) =>
-        movie.movie.category.some(
-          (cate) => cate.slug.toLowerCase() === categoryName.toLowerCase()
-        )
-      );
-      setMovies(filteredMovies);
+      if (category === "movies") {
+        filteredMovies = data.filter((movie) =>
+          movie.movie.category.some(
+            (cate) => cate.slug.toLowerCase() === categoryName.toLowerCase()
+          )
+        );
+        setMovies(filteredMovies);
+      } else if (category === "series") {
+        filteredMovies = data.filter((movie) =>
+          movie.movie.category.some(
+            (cate) => cate.slug.toLowerCase() === categoryName.toLowerCase()
+          )
+        );
+        setMovies(filteredMovies);
+      }
     }
-  }, [data, categoryName, pageNumber]);
+  }, [data, category, categoryName]);
   useEffect(() => {
     const slides = slides_ref.current;
     if (slides) {
@@ -140,24 +155,26 @@ function Movies() {
                 />
               ))}
         </div>
-        <div className={styles.sidebar_arrow}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePrevClick();
-            }}
-          >
-            <i className="zmdi zmdi-chevron-left"></i>
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleNextClick();
-            }}
-          >
-            <i className="zmdi zmdi-chevron-right"></i>
-          </button>
-        </div>
+        {data && (
+          <div className={styles.sidebar_arrow}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevClick();
+              }}
+            >
+              <i className="zmdi zmdi-chevron-left"></i>
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextClick();
+              }}
+            >
+              <i className="zmdi zmdi-chevron-right"></i>
+            </button>
+          </div>
+        )}
       </div>
       <div className={styles.content_container}>
         <div className={styles.box}>
@@ -169,6 +186,27 @@ function Movies() {
               );
               const start = (cur - 1) * 12;
               const end = cur * 12;
+              let result;
+              if (category === "series") {
+                if (movie.movie.episode_current.includes("Hoàn Tất")) {
+                  result =
+                    movie.episodes[0].server_data[
+                      movie.episodes[0].server_data.length - 1
+                    ].slug;
+                } else {
+                  const filteredResult = movie.episodes[0].server_data.find(
+                    (ep) => ep.name === movie.movie.episode_current
+                  );
+                  if (filteredResult) {
+                    result = filteredResult.slug;
+                  } else {
+                    result =
+                      movie.episodes[0].server_data[
+                        movie.episodes[0].server_data.length - 1
+                      ].slug;
+                  }
+                }
+              }
               if (start <= idx && idx < end) {
                 return (
                   <Movie
@@ -179,6 +217,7 @@ function Movies() {
                     quality={movie.movie.quality}
                     type={movie.movie.tmdb.type || "movie"}
                     slug={movie.movie.slug}
+                    currentEpsiode={category === "series" && result}
                   />
                 );
               }

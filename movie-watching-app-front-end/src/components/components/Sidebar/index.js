@@ -21,7 +21,13 @@ function Sidebar(data) {
             </h3>
             <h3 className={styles.duration}>{data.time || "1hr 45 minutes"}</h3>
           </div>
-          <Link to={`/movie-page/${data.slug}`}>
+          <Link
+            to={
+              data.currentEpsiode
+                ? `/${data.type}/${data.slug}/${data.currentEpsiode}`
+                : `/${data.type}/${data.slug}`
+            }
+          >
             <button className={styles.sidebar_button}>watch now</button>
           </Link>
         </div>

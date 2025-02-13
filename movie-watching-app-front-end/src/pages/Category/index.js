@@ -195,6 +195,7 @@ function Category() {
                     category={movie.movie.category}
                     time={movie.movie.time}
                     slug={movie.movie.slug}
+                    type="movie"
                   />
                 ))}
               </div>
@@ -286,16 +287,40 @@ function Category() {
                 onMouseUp={handleTouchEnd}
                 onMouseLeave={() => isDragging && handleTouchEnd()}
               >
-                {tvseries.slice(0, 4).map((serie, index) => (
-                  <Sidebar
-                    key={index}
-                    img={serie.movie.thumb_url}
-                    name={serie.movie.name}
-                    category={serie.movie.category}
-                    time={serie.movie.time}
-                    slug={serie.movie.slug}
-                  />
-                ))}
+                {tvseries.slice(0, 4).map((serie, index) => {
+                  let result;
+                  if (serie.movie.episode_current.includes("Hoàn Tất")) {
+                    result =
+                      serie.episodes[0].server_data[
+                        serie.episodes[0].server_data.length - 1
+                      ].slug;
+                  } else {
+                    const filteredResult = serie.episodes[0].server_data.find(
+                      (ep) => ep.name === serie.movie.episode_current
+                    );
+                    if (filteredResult) {
+                      result = filteredResult.slug;
+                    } else {
+                      result =
+                        serie.episodes[0].server_data[
+                          serie.episodes[0].server_data.length - 1
+                        ].slug;
+                    }
+                  }
+
+                  return (
+                    <Sidebar
+                      key={index}
+                      img={serie.movie.thumb_url}
+                      name={serie.movie.name}
+                      category={serie.movie.category}
+                      time={serie.movie.time}
+                      slug={serie.movie.slug}
+                      type={serie.movie.tmdb.type}
+                      currentEpsiode={result}
+                    />
+                  );
+                })}
               </div>
               <div className={styles.sidebar_arrow}>
                 <button
@@ -350,17 +375,43 @@ function Category() {
                         className={styles.box}
                         ref={(el) => (boxRefs.current[index] = el)}
                       >
-                        {filteredMovies.map((movie) => (
-                          <Movie
-                            id={movie._id}
-                            key={movie._id}
-                            name={movie.movie.name}
-                            img_src={movie.movie.poster_url}
-                            quality={movie.movie.quality}
-                            slug={movie.movie.slug}
-                            type={movie.movie.tmdb.type || "movie"}
-                          />
-                        ))}
+                        {filteredMovies.map((movie) => {
+                          let result;
+                          if (
+                            movie.movie.episode_current.includes("Hoàn Tất")
+                          ) {
+                            result =
+                              movie.episodes[0].server_data[
+                                movie.episodes[0].server_data.length - 1
+                              ].slug;
+                          } else {
+                            const filteredResult =
+                              movie.episodes[0].server_data.find(
+                                (ep) => ep.name === movie.movie.episode_current
+                              );
+                            if (filteredResult) {
+                              result = filteredResult.slug;
+                            } else {
+                              result =
+                                movie.episodes[0].server_data[
+                                  movie.episodes[0].server_data.length - 1
+                                ].slug;
+                            }
+                          }
+
+                          return (
+                            <Movie
+                              id={movie._id}
+                              key={movie._id}
+                              name={movie.movie.name}
+                              img_src={movie.movie.poster_url}
+                              quality={movie.movie.quality}
+                              slug={movie.movie.slug}
+                              type={movie.movie.tmdb.type || "movie"}
+                              currentEpsiode={result}
+                            />
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

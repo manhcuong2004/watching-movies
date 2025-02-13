@@ -63,7 +63,6 @@ function Category() {
       handleNextButton();
     }, 3000);
 
-    // Dọn dẹp khi component bị unmounted hoặc trước lần chạy mới
     return () => clearInterval(interval);
   }, []);
   useEffect(() => {
@@ -129,7 +128,7 @@ function Category() {
     if (cate) {
       setCurrentMovies(new Array(cate.length).fill(0));
     }
-  }, [movies, cate, tvseries]);
+  }, [category]);
 
   const handleNextButtonMovie = (index) => {
     const { quantity, width, next } = updateParams();
@@ -231,9 +230,7 @@ function Category() {
                     <div className={styles.container} key={index}>
                       <Title name={category.name} />
                       <div className={styles.title_arrow_box}>
-                        <button
-                        // onClick={() => handlePrevButtonMovie(index)}
-                        >
+                        <button onClick={() => handlePrevButtonMovie(index)}>
                           <i
                             className={clsx(
                               "zmdi zmdi-chevron-left",
@@ -241,9 +238,7 @@ function Category() {
                             )}
                           ></i>
                         </button>
-                        <button
-                        // onClick={() => handleNextButtonMovie(index)}
-                        >
+                        <button onClick={() => handleNextButtonMovie(index)}>
                           <i
                             className={clsx(
                               "zmdi zmdi-chevron-right",

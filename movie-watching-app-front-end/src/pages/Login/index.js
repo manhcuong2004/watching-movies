@@ -1,7 +1,30 @@
 import styles from "./styles.module.css";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { postUserLogin } from "../../services/allService/userService"
+import { Link, useNavigate } from "react-router-dom";
 function LoginRegister() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const data = await postUserLogin({ email, password });
+
+      if (data.error) {
+        setError(data.error);
+      } else {
+        alert("Đăng nhập thành công")
+        navigate("/");
+      }
+    } catch (err) {
+      setError("Lỗi kết nối server!");
+    }
+  };
   return (
     <div className={styles.loginRegister_container}>
       <div className={styles.form_box}>
@@ -10,9 +33,16 @@ function LoginRegister() {
           <Link to={"/register"}>Register</Link>
         </div>
         <div className={styles.form}>
-          <form action="">
+          {error && <p style={{ color: "red", margin: "10px" }}>{error}</p>}
+          <form onSubmit={handleSubmit}>
             <div className={clsx(styles.form_group, styles.full)}>
-              <input type="text" name="" id="name" placeholder="User Name" />
+              <input
+                type="text"
+                name=""
+                id="email"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className={clsx(styles.form_group, styles.full)}>
               <input
@@ -20,6 +50,7 @@ function LoginRegister() {
                 name=""
                 id="password"
                 placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className={styles.form_group}>

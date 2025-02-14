@@ -1,11 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
 const systemConfig = require('./config/system');
 app.use(cors());
+app.use(express.json()); // Middleware để parse JSON
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+
 
 const database = require('./config/database');
 database.connect();

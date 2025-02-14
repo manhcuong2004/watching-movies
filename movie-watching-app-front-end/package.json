@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "cra-template": "1.2.0",
     "hls.js": "^1.5.20",
@@ -37,8 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "axios": "^1.7.9"
   }
 }

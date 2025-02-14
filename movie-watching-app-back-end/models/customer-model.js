@@ -12,6 +12,7 @@ const CustomerSchema = mongoose.Schema({
     password: String,
     description: String,
     avatar: String,
+    tokenUser: String,
     deleted: {
         type: Boolean,
         default: false

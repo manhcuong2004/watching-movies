@@ -4,14 +4,12 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: Roboto, sans-serif;
+  font-family: Poppins, sans-serif;
 }
-
 body {
   background-color: black;
   transition: all ease 0.3s;
 }
-
 @media (min-width: 1500px) {
   :root {
     --next: 7px;
@@ -21,7 +19,6 @@ body {
     --width_movie: calc(var(--width) - var(--margin));
   }
 }
-
 @media (max-width: 1500px) {
   :root {
     --next: 8px;
@@ -31,7 +28,6 @@ body {
     --width_movie: calc(var(--width) - var(--margin));
   }
 }
-
 @media (max-width: 1300px) {
   :root {
     --next: 10px;
@@ -41,7 +37,6 @@ body {
     --width_movie: calc(var(--width) - var(--margin));
   }
 }
-
 @media (max-width: 1024px) {
   :root {
     --next: 13px;
@@ -51,7 +46,6 @@ body {
     --width_movie: calc(var(--width) - var(--margin));
   }
 }
-
 @media (max-width: 768px) {
   :root {
     --next: 20px;

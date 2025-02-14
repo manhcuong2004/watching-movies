@@ -12,12 +12,10 @@ module.exports.registerPost = async (req, res) => {
         if (existEmail) {
             return res.status(400).json({ error: "Email đã tồn tại!" });
         }
-
         const hashedPassword = await bcrypt.hash(password, 10);
         const tokenUser = crypto.randomBytes(32).toString("hex");
 
         const newUser = new Customer({ username, email, password: hashedPassword, tokenUser });
-
         await newUser.save();
 
         res.status(201).json({ message: "Đăng ký thành công!", email });

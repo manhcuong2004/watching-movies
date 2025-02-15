@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Fragment } from "react";
 import { privateRoutes, publicRoutes } from "./routes";
+import PrivateRoute from "./components/components/authentication";
 function App() {
   return (
     <Router>
@@ -28,9 +29,11 @@ function App() {
               key={index}
               path={route.path}
               element={
-                <Layout>
-                  <Page />
-                </Layout>
+                // <PrivateRoute>
+                  <Layout>
+                    <Page />
+                  </Layout>
+                // </PrivateRoute>
               }
             />
           );

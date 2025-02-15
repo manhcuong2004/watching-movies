@@ -1,30 +1,76 @@
 import styles from "./styles.module.css";
 import clsx from "clsx";
-import { useState } from "react";
-import { postUserLogin } from "../../services/allService/userService"
 import { Link, useNavigate } from "react-router-dom";
+import { fetchLogin } from "../../services/login";
+import { useCallback, useEffect, useRef, useState } from "react";
 function LoginRegister() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const [rememberMe, setRememberMe] = useState();
+  const [redirectToHome, setRedirectToHome] = useState(false);
+  const [check, setCheck] = useState();
+  const navigate = useNavigate();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const notificationBoxRef = useRef();
+  const handleLogin = useCallback(async (email, password) => {
     try {
-      const data = await postUserLogin({ email, password });
-
-      if (data.error) {
-        setError(data.error);
+      const data = await fetchLogin(email, password);
+      if (!data.error) {
+        setRedirectToHome(true);
       } else {
-        alert("Đăng nhập thành công")
-        navigate("/");
+        toastElement({ status: "error" });
       }
     } catch (err) {
-      setError("Lỗi kết nối server!");
+      // alert(err);
     }
+  }, []);
+  useEffect(() => {
+    if (redirectToHome) {
+      navigate("/home", { replace: true });
+    }
+  }, [redirectToHome]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    setCheck(false);
+
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    handleLogin(email, password);
+
+    emailRef.current.value = "";
+    passwordRef.current.value = "";
   };
+  function toastElement({ status }) {
+    const notificationBox = notificationBoxRef.current;
+    if (notificationBox) {
+      const toast = document.createElement("div");
+
+      toast.classList.add(
+        styles.container,
+        status === "success" ? styles.success : styles.error
+      );
+
+      toast.innerHTML = `
+        <div class="${styles.icon}">
+          <i class="zmdi ${status === "success" ? "zmdi-check" : "zmdi-alert-circle"
+        }"></i>
+        </div>
+        <div class="${styles.content}">
+          <h3>${status === "success" ? "Đăng nhập thành công" : "Đăng nhập thất bại"
+        }</h3>
+        </div>
+      `;
+
+      notificationBox.appendChild(toast);
+
+      // Xóa toast sau thời gian `duration`
+      setTimeout(() => {
+        toast.remove();
+      }, 4000);
+    }
+  }
+
   return (
     <div className={styles.loginRegister_container}>
       <div className={styles.form_box}>
@@ -33,28 +79,46 @@ function LoginRegister() {
           <Link to={"/register"}>Register</Link>
         </div>
         <div className={styles.form}>
-          {error && <p style={{ color: "red", margin: "10px" }}>{error}</p>}
           <form onSubmit={handleSubmit}>
             <div className={clsx(styles.form_group, styles.full)}>
               <input
-                type="text"
+                type="email"
                 name=""
                 id="email"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                autocomplete={rememberMe ? "email" : "off"}
+                ref={emailRef}
+                required
               />
             </div>
             <div className={clsx(styles.form_group, styles.full)}>
               <input
-                type="password"
+                type={check ? "text" : "password"}
                 name=""
                 id="password"
                 placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+                autocomplete={rememberMe ? "current-password" : "off"}
+                ref={passwordRef}
+                required
               />
+              <div className={styles.eyeBox} onClick={() => setCheck(!check)}>
+                <i
+                  className="zmdi zmdi-eye"
+                  style={{ display: check ? "none" : "block" }}
+                ></i>
+                <i
+                  className="zmdi zmdi-eye-off"
+                  style={{ display: check ? "block" : "none" }}
+                ></i>
+              </div>
             </div>
             <div className={styles.form_group}>
-              <input type="checkbox" name="" id="remember" />
+              <input
+                type="checkbox"
+                name=""
+                id="remember"
+                onChange={() => setRememberMe(!rememberMe)}
+              />
               <label for="remember">Remember me</label>
             </div>
             <div className={styles.form_group}>
@@ -65,6 +129,7 @@ function LoginRegister() {
             </div>
           </form>
         </div>
+        <div className={styles.notificationBox} ref={notificationBoxRef}></div>
       </div>
     </div>
   );

@@ -1,31 +1,90 @@
 import styles from "./styles.module.css";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
-import { postUserAccount } from "../../services/allService/userService"
-import { useState } from "react";
+import { fetchRegister } from "../../services/register";
+import { useCallback, useEffect, useRef, useState } from "react";
 function LoginRegister() {
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [redirectToLogin, setRedirectToLogin] = useState();
+  const passwordRef = useRef();
+  const displaynameRef = useRef();
+  const firstnameRef = useRef();
+  const lastnameRef = useRef();
+  const emailRef = useRef();
+  const notificationBoxRef = useRef();
+  const handleRegister = useCallback(
+    async (firstname, lastname, displayname, email, password) => {
+      try {
+        const data = await fetchRegister(
+          firstname,
+          lastname,
+          displayname,
+          email,
+          password
+        );
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const data = await postUserAccount({ username, email, password });
-
-      if (data.error) {
-        setError(data.error);
-      } else {
-        alert("Đăng ký thành công!");
-        navigate("/login");
+        if (!data.error) {
+          setRedirectToLogin(true);
+          toastElement({ status: "success" });
+        } else {
+          toastElement({ status: "error" });
+        }
+      } catch (err) {
+        alert("Lỗi kết nối với server");
       }
-    } catch (err) {
-      setError("Lỗi kết nối server!");
+    },
+    []
+  );
+  useEffect(() => {
+    if (redirectToLogin) {
+      navigate("/login", { replace: true });
     }
+  }, [redirectToLogin]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const firstname = firstnameRef.current.value;
+    const lastname = lastnameRef.current.value;
+    const displayname = displaynameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    await handleRegister(firstname, lastname, displayname, email, password);
   };
+  function toastElement({ status }) {
+    const notificationBox = notificationBoxRef.current;
+    if (notificationBox) {
+      const toast = document.createElement("div");
+
+      toast.classList.add(
+        styles.container,
+        status === "success" ? styles.success : styles.error
+      );
+
+      toast.innerHTML = `
+        <div class="${styles.icon}">
+          <i class="zmdi ${status === "success" ? "zmdi-check" : "zmdi-alert-circle"
+        }"></i>
+        </div>
+        <div class="${styles.content}">
+          <h3>${status === "success" ? "Đăng kí thành công" : "Đăng kí thất bại"
+        }</h3>
+        </div>
+      `;
+
+      notificationBox.appendChild(toast);
+
+      // Xóa toast sau thời gian `duration`
+      setTimeout(() => {
+        toast.remove();
+      }, 4000);
+    }
+  }
+
+  const handleClick = (type) => {
+    toastElement({ status: type });
+  };
+
   return (
     <div className={styles.loginRegister_container}>
       <div className={styles.form_box}>
@@ -34,51 +93,66 @@ function LoginRegister() {
           <Link className={styles.active}>Register</Link>
         </div>
         <div className={styles.form}>
-          {error && <p style={{ color: "red", margin: "10px" }}>{error}</p>}
           <form onSubmit={handleSubmit}>
+            <div className={clsx(styles.form_group)}>
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                placeholder="First Name"
+                ref={firstnameRef}
+                required
+              />
+            </div>
+            <div className={clsx(styles.form_group)}>
+              <input
+                type="text"
+                name="lastname"
+                id="lastname"
+                placeholder="Last Name"
+                ref={lastnameRef}
+                required
+              />
+            </div>
             <div className={clsx(styles.form_group, styles.full)}>
               <input
                 type="text"
-                name=""
-                id="name"
-                placeholder="User Name"
-                onChange={(e) => setUsername(e.target.value)}
+                name="displayname"
+                id="displayname"
+                placeholder="Display Name"
+                ref={displaynameRef}
+                required
               />
             </div>
-            <div className={clsx(styles.form_group, styles.full)}>
-              <input
-                type="password"
-                name=""
-                id="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+
             <div className={clsx(styles.form_group, styles.full)}>
               <input
                 type="email"
                 name=""
                 id="email"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                ref={emailRef}
+                required
               />
             </div>
-            <div className={styles.form_group}>
-              <input type="checkbox" name="" id="remember" />
-              <label for="remember">Remember me</label>
+            <div className={clsx(styles.form_group, styles.full)}>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                ref={passwordRef}
+                required
+              />
             </div>
-            <div className={styles.form_group}>
-              <Link>Forgot Password</Link>
-            </div>
 
-
-
-            <div className={styles.form_group}>
+            <div className={clsx(styles.form_group, styles.full)}>
               <input type="submit" value="Register" className={styles.active} />
             </div>
           </form>
         </div>
       </div>
+      <div className={styles.notificationBox} ref={notificationBoxRef}></div>
     </div>
   );
 }

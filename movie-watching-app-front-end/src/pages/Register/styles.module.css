@@ -1,89 +1,198 @@
-.nav_box > *{
-    background-color: rgb(30, 39, 45);
+.nav_box > * {
+  background-color: rgb(30, 39, 45);
 }
-.form_box{
-    width: 1200px;
-    padding: 80px 15px;
-    margin: 0 auto;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.form_box {
+  width: 100%;
+  padding: 80px 15px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.form_box .heading{
-    margin-bottom: 60px;
+.form_box .heading {
+  margin-bottom: 60px;
 }
-.form_box .heading a{
-    text-decoration: none;
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
+.form_box .heading a {
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
 }
-.form_box .heading a:first-child{
-    padding-right: 20px;
-    margin-right: 20px;
-    border-right: 1px solid #858383;
+.form_box .heading a:first-child {
+  padding-right: 20px;
+  margin-right: 20px;
+  border-right: 1px solid #858383;
 }
-.form_box .heading a.active{
-    color: rgb(244, 24, 28);
+.form_box .heading a.active {
+  color: rgb(244, 24, 28);
 }
-.form_box .form{
-    padding: 60px;
-    border: 1px solid rgb(51, 51, 51);
-    width: 58.333333%;
+.form_box .form {
+  padding: 20px;
+  border: 1px solid rgb(51, 51, 51);
+  width: 100%;
 }
-.form_box .form form{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.form_box .form .form_group.full{
-    grid-column: 1/3;
-}
-.form_box .form .form_group input:not([type='submit']):not([type='checkbox']){
-    padding: 12px 8px;
-    margin-bottom: 20px;
-    width: 100%;
-    background-color: rgb(30, 39, 45);
-    border: none;
-    outline: none;
-    color: white;
+.form_box .form form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
 }
 
-.form_box .form .form_group input:not([type='submit']):not([type='checkbox'])::placeholder{
-    color: #ccc;
+.form_box .form .form_group.full {
+  grid-column: 1/3;
 }
-.form_box .form .form_group label{
-    color: white;
-    
+.form_box .form .form_group input:not([type="submit"]):not([type="checkbox"]) {
+  padding: 12px 8px;
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: rgb(30, 39, 45);
+  border: none;
+  outline: none;
+  color: white;
 }
-.form_box .form .form_group a{
-    color: rgb(244, 24, 28);
-    text-decoration: none;
+
+.form_box
+  .form
+  .form_group
+  input:not([type="submit"]):not([type="checkbox"])::placeholder {
+  color: #ccc;
+}
+.form_box .form .form_group label {
+  color: white;
+}
+.form_box .form .form_group a {
+  color: rgb(244, 24, 28);
+  text-decoration: none;
 }
 .form_box .form .form_group label,
-.form_box .form .form_group a{
-    font-size: 14px ;
+.form_box .form .form_group a {
+  font-size: 14px;
+}
 
+.form_box .form .form_group:last-child {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.form_box .form .form_group:nth-child(4){
-    text-align: left;
-    display: flex;
-    gap: 10px
+.form_box .form .form_group:last-child input {
+  padding: 8px 30px;
+  background-color: rgb(244, 24, 28);
+  color: white;
+  border: none;
+  display: none;
 }
-.form_box .form .form_group:nth-child(5){
-    text-align: right;
+.form_box .form .form_group:last-child input:hover {
+  background-color: white;
+  color: rgb(244, 24, 28);
 }
-.form_box .form .form_group:last-child{
-    margin-top: 20px;
+.form_box .form .form_group:last-child input.active {
+  display: block;
 }
-.form_box .form .form_group:last-child input{
-    padding: 8px 30px;
-    background-color: rgb(244, 24, 28);
-    color: white;
-    border: none;
-    display: none;
+.notificationBox {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.form_box .form .form_group:last-child input.active{
-    display: block;
+.notificationBox .container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px;
+  border-left: 5px solid #47d864;
+  background-color: white;
+  color: black;
+  min-width: 200px;
+  animation: fadeIn 1s ease, fadeout 1s 3s ease forwards;
+}
+.notificationBox .container .icon {
+  width: 30px;
+  height: 30px;
+  background-color: #47d864;
+  border-radius: 100%;
+  color: white;
+  text-align: center;
+}
+.notificationBox .container .icon i {
+  font-size: 25px;
+  line-height: 30px;
+}
+.notificationBox .container.success {
+  border-left: 5px solid #47d864;
+}
+.notificationBox .coxntainer.success .icon {
+  background-color: #47d864;
+}
+.notificationBox .container.error {
+  border-left: 5px solid #ff623d;
+}
+
+.notificationBox .container.error .icon {
+  border-radius: 0;
+  background: none;
+}
+.notificationBox .container.error .icon i {
+  font-size: 30px;
+  color: #ff623d;
+}
+.notificationBox .container .content h3 {
+  font-size: 16px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 30px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeout {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 640px) {
+  .form_box {
+    max-width: 640px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .form_box .form {
+    padding: 60px;
+  }
+  .form_box .form {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .form_box {
+    max-width: 768px;
+  }
+  .form_box .form {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .form_box {
+    max-width: 1024px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .form_box {
+    max-width: 1200px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }

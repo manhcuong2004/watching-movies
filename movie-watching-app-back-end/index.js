@@ -6,7 +6,10 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
 const systemConfig = require('./config/system');
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000", // Frontend URL
+    credentials: true // Cho phép gửi cookie
+}));
 app.use(express.json()); // Middleware để parse JSON
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));

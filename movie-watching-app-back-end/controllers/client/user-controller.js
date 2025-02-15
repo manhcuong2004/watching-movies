@@ -17,7 +17,7 @@ module.exports.registerPost = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const newUser = new Customer({ firstname, lastname, displayName: displayname, email, password: hashedPassword });
+        const newUser = new Customer({ firstName: firstname, lastName: lastname, displayName: displayname, email, password: hashedPassword });
 
         await newUser.save();
 

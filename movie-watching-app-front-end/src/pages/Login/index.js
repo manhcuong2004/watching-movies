@@ -10,13 +10,14 @@ function LoginRegister() {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const notificationBoxRef = useRef();
   const handleLogin = useCallback(async (email, password) => {
     try {
       const data = await fetchLogin(email, password);
       if (!data.error) {
         setRedirectToHome(true);
-      }else{
-        alert(data.error)
+      } else {
+        toastElement({ status: "error" });
       }
     } catch (err) {
       // alert(err);
@@ -40,6 +41,37 @@ function LoginRegister() {
     emailRef.current.value = "";
     passwordRef.current.value = "";
   };
+  function toastElement({ status }) {
+    const notificationBox = notificationBoxRef.current;
+    if (notificationBox) {
+      const toast = document.createElement("div");
+
+      toast.classList.add(
+        styles.container,
+        status === "success" ? styles.success : styles.error
+      );
+
+      toast.innerHTML = `
+        <div class="${styles.icon}">
+          <i class="zmdi ${
+            status === "success" ? "zmdi-check" : "zmdi-alert-circle"
+          }"></i>
+        </div>
+        <div class="${styles.content}">
+          <h3>${
+            status === "success" ? "Đăng nhập thành công" : "Đăng nhập thất bại"
+          }</h3>
+        </div>
+      `;
+
+      notificationBox.appendChild(toast);
+
+      // Xóa toast sau thời gian `duration`
+      setTimeout(() => {
+        toast.remove();
+      }, 4000);
+    }
+  }
 
   return (
     <div className={styles.loginRegister_container}>
@@ -99,6 +131,7 @@ function LoginRegister() {
             </div>
           </form>
         </div>
+        <div className={styles.notificationBox} ref={notificationBoxRef}></div>
       </div>
     </div>
   );

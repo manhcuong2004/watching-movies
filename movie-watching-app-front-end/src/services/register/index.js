@@ -2,7 +2,6 @@ const fetchRegister = (
   firstname,
   lastname,
   displayname,
-  username,
   password,
   email
 ) => {
@@ -13,7 +12,6 @@ const fetchRegister = (
       firstname,
       lastname,
       displayname,
-      username,
       password,
       email,
     }),

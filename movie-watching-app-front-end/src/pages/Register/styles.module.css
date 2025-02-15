@@ -83,9 +83,81 @@
   border: none;
   display: none;
 }
+.form_box .form .form_group:last-child input:hover {
+  background-color: white;
+  color: rgb(244, 24, 28);
+}
 .form_box .form .form_group:last-child input.active {
   display: block;
 }
+.notificationBox {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.notificationBox .container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px;
+  border-left: 5px solid #47d864;
+  background-color: white;
+  color: black;
+  min-width: 200px;
+  animation: fadeIn 1s ease, fadeout 1s 3s ease forwards;
+}
+.notificationBox .container .icon {
+  width: 30px;
+  height: 30px;
+  background-color: #47d864;
+  border-radius: 100%;
+  color: white;
+  text-align: center;
+}
+.notificationBox .container .icon i {
+  font-size: 25px;
+  line-height: 30px;
+}
+.notificationBox .container.success {
+  border-left: 5px solid #47d864;
+}
+.notificationBox .coxntainer.success .icon {
+  background-color: #47d864;
+}
+.notificationBox .container.error {
+  border-left: 5px solid #ff623d;
+}
+
+.notificationBox .container.error .icon {
+  border-radius: 0;
+  background: none;
+}
+.notificationBox .container.error .icon i {
+  font-size: 30px;
+  color: #ff623d;
+}
+.notificationBox .container .content h3 {
+  font-size: 16px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 30px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeout {
+  to {
+    opacity: 0;
+  }
+}
+
 @media (min-width: 640px) {
   .form_box {
     max-width: 640px;
@@ -123,19 +195,4 @@
     padding-right: 15px;
     padding-left: 15px;
   }
-}
-.notificationBox {
-  position: fixed;
-  top: 30px;
-  right: 30px;
-}
-.notificationBox .container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid rgb(139, 247, 22);
-  background-color: rgb(139, 247, 22);
-  color: black;
 }

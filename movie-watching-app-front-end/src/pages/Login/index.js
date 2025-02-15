@@ -8,13 +8,18 @@ function LoginRegister() {
   const [redirectToHome, setRedirectToHome] = useState(false);
   const [check, setCheck] = useState();
   const navigate = useNavigate();
-  const usernameRef = useRef();
+  const emailRef = useRef();
   const passwordRef = useRef();
-  const handleLogin = useCallback(async (username, password) => {
-    const data = await fetchLogin();
-    if (data.token) {
-      sessionStorage.setItem("token", data.token);
-      setRedirectToHome(true);
+  const handleLogin = useCallback(async (email, password) => {
+    try {
+      const data = await fetchLogin(email, password);
+      if (!data.error) {
+        setRedirectToHome(true);
+      }else{
+        alert(data.error)
+      }
+    } catch (err) {
+      // alert(err);
     }
   }, []);
   useEffect(() => {
@@ -27,12 +32,12 @@ function LoginRegister() {
 
     setCheck(false);
 
-    const username = usernameRef.current.value;
+    const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    handleLogin(username, password);
+    handleLogin(email, password);
 
-    usernameRef.current.value = "";
+    emailRef.current.value = "";
     passwordRef.current.value = "";
   };
 
@@ -47,12 +52,12 @@ function LoginRegister() {
           <form onSubmit={handleSubmit}>
             <div className={clsx(styles.form_group, styles.full)}>
               <input
-                type="text"
+                type="email"
                 name=""
-                id="username"
-                placeholder="User Name"
-                autocomplete={rememberMe ? "username" : "off"}
-                ref={usernameRef}
+                id="email"
+                placeholder="Email"
+                autocomplete={rememberMe ? "email" : "off"}
+                ref={emailRef}
                 required
               />
             </div>

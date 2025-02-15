@@ -6,26 +6,29 @@ import { useCallback, useEffect, useRef, useState } from "react";
 function LoginRegister() {
   const navigate = useNavigate();
   const [redirectToLogin, setRedirectToLogin] = useState();
-  const usernameRef = useRef();
   const passwordRef = useRef();
   const displaynameRef = useRef();
   const firstnameRef = useRef();
   const lastnameRef = useRef();
   const emailRef = useRef();
+  const notificationBoxRef = useRef();
   const handleRegister = useCallback(
     async (firstname, lastname, displayname, username, password, email) => {
-      const data = await fetchRegister(
-        firstname,
-        lastname,
-        displayname,
-        username,
-        password,
-        email
-      );
+      try {
+        const data = await fetchRegister(
+          firstname,
+          lastname,
+          displayname,
+          username,
+          password,
+          email
+        );
 
-      if (data.status === "success") {
-        setRedirectToLogin(true);
-      } else {
+        // if (!data.error) {
+        //   setRedirectToLogin(true);
+        // }
+      } catch (err) {
+        alert("Lỗi kết nối với server");
       }
     },
     []
@@ -35,18 +38,52 @@ function LoginRegister() {
       navigate("/login", { replace: true });
     }
   }, [redirectToLogin]);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const firstname = firstnameRef.current.value;
     const lastname = lastnameRef.current.value;
     const displayname = displaynameRef.current.value;
     const email = emailRef.current.value;
-
-    handleRegister(firstname, lastname, displayname, username, password, email);
+    handleRegister(firstname, lastname, displayname, password, email);
   };
+  function toastElement({ status }) {
+    const notificationBox = notificationBoxRef.current;
+    if (notificationBox) {
+      const toast = document.createElement("div");
+
+      toast.classList.add(
+        styles.container,
+        status === "success" ? styles.success : styles.error
+      );
+
+      toast.innerHTML = `
+        <div class="${styles.icon}">
+          <i class="zmdi ${
+            status === "success" ? "zmdi-check" : "zmdi-alert-circle"
+          }"></i>
+        </div>
+        <div class="${styles.content}">
+          <h3>${
+            status === "success" ? "Đăng kí thành công" : "Đăng kí thất bại"
+          }</h3>
+        </div>
+      `;
+
+      notificationBox.appendChild(toast);
+
+      // Xóa toast sau thời gian `duration`
+      setTimeout(() => {
+        toast.remove();
+      }, 4000);
+    }
+  }
+
+  const handleClick = (type) => {
+    toastElement({ status: type });
+  };
+
   return (
     <div className={styles.loginRegister_container}>
       <div className={styles.form_box}>
@@ -86,13 +123,14 @@ function LoginRegister() {
                 required
               />
             </div>
+
             <div className={clsx(styles.form_group, styles.full)}>
               <input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="User Name"
-                ref={usernameRef}
+                type="email"
+                name=""
+                id="email"
+                placeholder="Email"
+                ref={emailRef}
                 required
               />
             </div>
@@ -106,16 +144,6 @@ function LoginRegister() {
                 required
               />
             </div>
-            <div className={clsx(styles.form_group, styles.full)}>
-              <input
-                type="email"
-                name=""
-                id="email"
-                placeholder="Email"
-                ref={emailRef}
-                required
-              />
-            </div>
 
             <div className={clsx(styles.form_group, styles.full)}>
               <input type="submit" value="Register" className={styles.active} />
@@ -123,18 +151,7 @@ function LoginRegister() {
           </form>
         </div>
       </div>
-      <div className={styles.notificationBox}>
-        <div className={styles.container}>
-          <div className={styles.icon}>
-            <i className="zmdi zmdi-check"></i>
-            {/* <i className="zmdi zmdi-alert-circle"></i> */}
-          </div>
-          <div className={styles.content}>
-            <h3>Đăng kí thành công</h3>
-            {/* <h3>Đăng kí thất bại</h3> */}
-          </div>
-        </div>
-      </div>
+      <div className={styles.notificationBox} ref={notificationBoxRef}></div>
     </div>
   );
 }
